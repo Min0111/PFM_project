@@ -1,6 +1,6 @@
 //package com.pfm.project.controller;
 //
-//import com.pfm.project.vo.TestVO;
+//import com.pfm.project.TestVO;
 //import io.swagger.v3.oas.annotations.Operation;
 //import io.swagger.v3.oas.annotations.Parameter;
 //import io.swagger.v3.oas.annotations.tags.Tag;

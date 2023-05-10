@@ -1,4 +1,4 @@
-package com.pfm.project.vo.search.response;
+package com.pfm.project.dto.home;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

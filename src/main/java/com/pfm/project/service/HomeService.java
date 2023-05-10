@@ -1,10 +1,10 @@
 package com.pfm.project.service;
 
 import com.pfm.project.data.HomeRepasitory;
-import com.pfm.project.vo.home.request.HomeCoordinatesRequest;
-import com.pfm.project.vo.home.response.HomeCardResponse;
-import com.pfm.project.vo.home.response.HomeCoordinatesResponse;
-import com.pfm.project.vo.search.response.SearchResponse;
+import com.pfm.project.dto.home.request.HomeCoordinatesRequest;
+import com.pfm.project.dto.home.response.HomeCardResponse;
+import com.pfm.project.dto.home.response.HomeCoordinatesResponse;
+import com.pfm.project.dto.home.SearchResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

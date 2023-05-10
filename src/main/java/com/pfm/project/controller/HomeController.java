@@ -1,10 +1,10 @@
 package com.pfm.project.controller;
 
 import com.pfm.project.service.HomeService;
-import com.pfm.project.vo.home.request.HomeCoordinatesRequest;
-import com.pfm.project.vo.home.response.HomeCardResponse;
-import com.pfm.project.vo.home.response.HomeCoordinatesResponse;
-import com.pfm.project.vo.search.response.SearchResponse;
+import com.pfm.project.dto.home.request.HomeCoordinatesRequest;
+import com.pfm.project.dto.home.response.HomeCardResponse;
+import com.pfm.project.dto.home.response.HomeCoordinatesResponse;
+import com.pfm.project.dto.home.SearchResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
