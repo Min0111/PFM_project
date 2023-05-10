@@ -1,6 +1,6 @@
 package com.pfm.project.service;
 
-import com.pfm.project.repository.home.HomeRepasitory;
+import com.pfm.project.data.HomeRepasitory;
 import com.pfm.project.vo.home.request.HomeCoordinatesRequest;
 import com.pfm.project.vo.home.response.HomeCardResponse;
 import com.pfm.project.vo.home.response.HomeCoordinatesResponse;

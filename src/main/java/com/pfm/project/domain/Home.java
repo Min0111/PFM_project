@@ -1,4 +1,4 @@
-package com.pfm.project.repository.home;
+package com.pfm.project.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
