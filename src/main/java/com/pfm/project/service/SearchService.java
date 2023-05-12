@@ -6,15 +6,8 @@ import org.springframework.stereotype.Service;
 public class SearchService {
 
 
-
 //    public List<SearchResponse> currentLocation(String search, HomeCoordinatesRequest req){
 //
 //
 //
-//    }
-
-
-
-
-
 }
