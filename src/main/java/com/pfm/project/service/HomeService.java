@@ -1,6 +1,5 @@
 package com.pfm.project.service;
 
-import com.pfm.project.data.HomeRepasitory;
 import com.pfm.project.dto.home.request.HomeCoordinatesRequest;
 import com.pfm.project.dto.home.response.HomeCardResponse;
 import com.pfm.project.dto.home.response.HomeCoordinatesResponse;
@@ -13,11 +12,11 @@ import java.util.List;
 @Service
 public class HomeService {
 
-    private final HomeRepasitory home;
+//    private final HomeRepasitory home;
 
-    public HomeService(HomeRepasitory home) {
-        this.home = home;
-    }
+//    public HomeService(HomeRepasitory home) {
+//        this.home = home;
+//    }
 
     @Transactional
     public List<HomeCoordinatesResponse> homeCoordinates(HomeCoordinatesRequest req){

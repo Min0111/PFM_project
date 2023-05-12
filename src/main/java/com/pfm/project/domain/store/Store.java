@@ -3,6 +3,7 @@ package com.pfm.project.domain.store;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,6 @@ import javax.validation.constraints.Null;
 @NoArgsConstructor
 @Table(name="STORE")
 public class Store {
-
     // 업소 아이디
     @Id
     @Column(name="store_id")
