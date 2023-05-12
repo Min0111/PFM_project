@@ -55,6 +55,7 @@ public class Store {
     @Column(name = "store_address", nullable = false)
     private String storeAddress;
 
+    //https://cheese10yun.github.io/spring-builder-pattern/
     @Builder
     public Store(
             String storeName,
