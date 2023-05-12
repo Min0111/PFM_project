@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -32,8 +31,7 @@ public class Product {
     private Store store;
 
     @Builder
-    public Product(Store store, String productName, int price) {
-        this.store = store;
+    public Product(String productName, int price) {
         this.price = price;
         this.productName =productName;
     }
