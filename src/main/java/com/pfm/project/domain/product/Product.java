@@ -31,7 +31,8 @@ public class Product {
     private Store store;
 
     @Builder
-    public Product(String productName, int price) {
+    public Product(String productName, int price, Store store) {
+        this.store = store;
         this.price = price;
         this.productName =productName;
     }
