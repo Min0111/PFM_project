@@ -3,14 +3,11 @@ package com.pfm.project.domain.store;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 
 @Entity
@@ -21,7 +18,7 @@ public class Store {
     // 업소 아이디
     @Id
     @Column(name="store_id")
-    private int storeId;
+    private Long storeId;
 
     // 업소명
     @Column(name = "store_name", nullable = false)
@@ -58,6 +55,7 @@ public class Store {
     //https://cheese10yun.github.io/spring-builder-pattern/
     @Builder
     public Store(
+            Long storeId,
             String storeName,
             int storeType,
             String storeNumber,
@@ -67,6 +65,7 @@ public class Store {
             String storeInfo,
             String storeAddress
     ) {
+        this.storeId = storeId;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeNumber = storeNumber;
@@ -75,5 +74,20 @@ public class Store {
         this.storeUrl = storeUrl;
         this.storeInfo = storeInfo;
         this.storeAddress = storeAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "storeId=" + storeId +
+                ", storeName='" + storeName + '\'' +
+                ", storeType=" + storeType +
+                ", storeNumber='" + storeNumber + '\'' +
+                ", storeWayToCome='" + storeWayToCome + '\'' +
+                ", storePride='" + storePride + '\'' +
+                ", storeUrl='" + storeUrl + '\'' +
+                ", storeInfo='" + storeInfo + '\'' +
+                ", storeAddress='" + storeAddress + '\'' +
+                '}';
     }
 }
