@@ -1,10 +1,10 @@
-package com.pfm.project.dto.place;
+package com.pfm.project.dto.place.request;
 
-public class PlaceRequestDTO {
+public class PlaceRequest {
     private final double latitude;
     private final double longitude;
 
-    public PlaceRequestDTO(double latitude, double longitude) {
+    public PlaceRequest(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

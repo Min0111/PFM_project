@@ -1,13 +1,14 @@
-package com.pfm.project.dto.store;
+package com.pfm.project.dto.store.response;
 
-import com.pfm.project.dto.product.ProductResponseDto;
+import com.pfm.project.dto.product.response.ProductResponse;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import java.util.List;
 
 @Schema(description = "업소 자세한 정보")
-public class StoreDetailResponseDTO {
+public class StoreDetailResponse {
 
     @Schema(description = "업소 정보")
     private String storeInfo;
@@ -21,9 +22,10 @@ public class StoreDetailResponseDTO {
     private String storeUrl;
 
     @ArraySchema()
-    private List<ProductResponseDto> products;
+    private List<ProductResponse> products;
 
-    public StoreDetailResponseDTO(String storeInfo, String storeNumber, String storeWayToCome, List<ProductResponseDto> products, String storeUrl) {
+    @Builder
+    public StoreDetailResponse(String storeInfo, String storeNumber, String storeWayToCome, List<ProductResponse> products, String storeUrl) {
         this.storeInfo = storeInfo;
         this.storeNumber = storeNumber;
         this.storeWayToCome = storeWayToCome;
@@ -31,7 +33,7 @@ public class StoreDetailResponseDTO {
         this.products = products;
     }
 
-    public List<ProductResponseDto> getProducts() {
+    public List<ProductResponse> getProducts() {
         return products;
     }
 

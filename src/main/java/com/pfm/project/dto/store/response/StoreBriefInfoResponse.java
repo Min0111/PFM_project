@@ -1,10 +1,10 @@
-package com.pfm.project.dto.store;
+package com.pfm.project.dto.store.response;
 
-import com.pfm.project.dto.place.PlaceResponseDTO;
+import com.pfm.project.dto.place.response.PlaceResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "업소 간단 정보")
-public class StoreBriefInfoResponseDTO {
+public class StoreBriefInfoResponse {
     @Schema(description = "업소 아이디")
     private Long storeId;
 
@@ -21,15 +21,15 @@ public class StoreBriefInfoResponseDTO {
     private String storeAddress;
 
     @Schema(description = "업소 좌표")
-    private PlaceResponseDTO place;
+    private PlaceResponse place;
 
-    public StoreBriefInfoResponseDTO(
+    public StoreBriefInfoResponse(
             Long storeId,
             String storeName,
             int storeType,
             String storePride,
             String storeAddress,
-            PlaceResponseDTO place
+            PlaceResponse place
     ) {
         this.storeId = storeId;
         this.storeName = storeName;
@@ -59,7 +59,7 @@ public class StoreBriefInfoResponseDTO {
         return storeAddress;
     }
 
-    public PlaceResponseDTO getPlaceResponseDTO() {
+    public PlaceResponse getPlace() {
         return place;
     }
 }
