@@ -29,8 +29,7 @@ public class Place {
     private Store store;
 
     @Builder
-    public Place(int id, double latitude, double longitude, Store store) {
-        this.id = id;
+    public Place(double latitude, double longitude, Store store) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.store = store;
