@@ -1,5 +1,6 @@
 package com.pfm.project.DB_save_api;
 
+import com.pfm.project.domain.place.Place;
 import com.pfm.project.domain.product.Product;
 import com.pfm.project.domain.store.Store;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,13 @@ public class DBSaveService {
     private final API_Store_Repository storeRepository;
     private final API_Product_Repository productRepository;
 
+    private final API_Place_Repository placeRepository;
+
     @Autowired
-    public DBSaveService(API_Store_Repository storeRepository, API_Product_Repository productRepository) {
+    public DBSaveService(API_Store_Repository storeRepository, API_Product_Repository productRepository, API_Place_Repository placeRepository) {
         this.storeRepository = storeRepository;
         this.productRepository = productRepository;
+        this.placeRepository = placeRepository;
     }
 
     @Transactional
@@ -40,5 +44,21 @@ public class DBSaveService {
         }
 
         productRepository.saveAll(saveProducts);
+    }
+
+    @Transactional
+    public void savePlaceDB(List<PlaceApiDTO> req) {
+        List<Place> savePlaces = new ArrayList<>();
+
+        for (PlaceApiDTO p: req) {
+            Place place = Place.builder()
+                    .latitude(p.getLatitude())
+                    .longitude(p.getLongitude())
+                    .store(storeRepository.findById(p.getId()).orElseThrow()).build();
+
+            savePlaces.add(place);
+        }
+
+        placeRepository.saveAll(savePlaces);
     }
 }
