@@ -1,13 +1,12 @@
-package com.pfm.project.dto;
+package com.pfm.project.dto.store.request;
 
-import com.pfm.project.dto.place.PlaceRequestDTO;
+import com.pfm.project.dto.place.request.PlaceRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class searchStoreByMapReqeustDTO {
-    private final PlaceRequestDTO leftUpPlace;
-    private final PlaceRequestDTO rightDownPlace;
-
-    private final PlaceRequestDTO userPlace;
+public class SearchStoreByMapReqeust {
+    private final PlaceRequest leftUpPlace;
+    private final PlaceRequest rightDownPlace;
+    private final PlaceRequest userPlace;
 
     @Schema(nullable = true)
     private String storeName;
@@ -15,9 +14,10 @@ public class searchStoreByMapReqeustDTO {
     @Schema(nullable = true)
     private int storeType;
 
-    private int page;
+    @Schema(nullable = true)
+    private int page; //default = 0
 
-    public searchStoreByMapReqeustDTO(PlaceRequestDTO leftUpPlace, PlaceRequestDTO rightDownPlace, PlaceRequestDTO userPlace, String storeName, int storeType, int page) {
+    public SearchStoreByMapReqeust(PlaceRequest leftUpPlace, PlaceRequest rightDownPlace, PlaceRequest userPlace, String storeName, int storeType, int page) {
         this.leftUpPlace = leftUpPlace;
         this.rightDownPlace = rightDownPlace;
         this.userPlace = userPlace;
@@ -26,15 +26,15 @@ public class searchStoreByMapReqeustDTO {
         this.page = page;
     }
 
-    public PlaceRequestDTO getLeftUpPlace() {
+    public PlaceRequest getLeftUpPlace() {
         return leftUpPlace;
     }
 
-    public PlaceRequestDTO getRightDownPlace() {
+    public PlaceRequest getRightDownPlace() {
         return rightDownPlace;
     }
 
-    public PlaceRequestDTO getUserPlace() {
+    public PlaceRequest getUserPlace() {
         return userPlace;
     }
 
