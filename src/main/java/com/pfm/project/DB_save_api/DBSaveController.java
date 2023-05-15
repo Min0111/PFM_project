@@ -21,10 +21,12 @@ import java.util.List;
 public class DBSaveController {
 
     private final DBSaveService dbSaveService;
+    private final TuningOpenAPI tuningOpenAPI;
 
     @Autowired
-    public DBSaveController(DBSaveService dbSaveService) {
+    public DBSaveController(DBSaveService dbSaveService, TuningOpenAPI tuningOpenAPI) {
         this.dbSaveService = dbSaveService;
+        this.tuningOpenAPI = tuningOpenAPI;
     }
 
 
@@ -36,114 +38,48 @@ public class DBSaveController {
     @PostMapping("/api/store")
     public void saveStoreDb(){
 
-        String result = "";
+        String storeResult = "";
         String result2 = "";
 
-        List<Store> req = new ArrayList<>();
-        Long SH_ID;	 //업소아이디
-        String SH_NAME;	 //업소명
-        int INDUTY_CODE_SE;	 //분류코드
-        String INDUTY_CODE_SE_NAME;	 //분류코드명
-        String SH_ADDR;	 //업소 주소
-        String SH_PHONE;	 //업소 전화번호
-        String SH_WAY;	 //찾아오시는 길
-        String SH_INFO;	 //업소정보
-        String SH_PRIDE;	 //자랑거리
-        String SH_PHOTO; 	//업소 사진
+        List<Store> stores = new ArrayList<>();
+        List<PlaceApiDTO> places= new ArrayList<>();
 
         try {
+//            URL url = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/1/1");
+//            URL url1 = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/3/4");
+
+
             URL url = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/1/1000");
             URL url1 = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/1001/1210");
-            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-type","application/json");
 
-            HttpURLConnection connection1 = (HttpURLConnection)url1.openConnection();
-            connection1.setRequestMethod("GET");
-            connection1.setRequestProperty("Content-type","application/json");
-
-            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
-            BufferedReader bf2 = new BufferedReader(new InputStreamReader(url1.openStream(),"UTF-8"));
-
-            result = bf.readLine();
-            result2 = bf2.readLine();
-
-            JSONParser parser = new JSONParser();
-            JSONObject object = (JSONObject) parser.parse(result);
-            JSONObject object2 = (JSONObject) parser.parse(result2);
-
-            JSONObject out1 = (JSONObject) object.get("ListPriceModelStoreService");
-
-            JSONObject out2 = (JSONObject) object2.get("ListPriceModelStoreService");
-
-            JSONArray array = (JSONArray) out1.get("row");
-            JSONArray array2 = (JSONArray) out2.get("row");
+            JSONArray array1 = tuningOpenAPI.getJsonObjectFromOpenAPI(url);
+            JSONArray array2 = tuningOpenAPI.getJsonObjectFromOpenAPI(url1);
 
 
 
 
-            for (int i =0; i<array.size(); i++){
-                JSONObject arr = (JSONObject) array.get(i);
-                Long id = Long.parseLong((String) arr.get("SH_ID"));
-                String store_name = (String)arr.get("SH_NAME");
-                int store_code = Integer.parseInt((String) arr.get("INDUTY_CODE_SE"));
-                String store_code_name = (String)arr.get("INDUTY_CODE_SE_NAME");
-                String address = (String)arr.get("SH_ADDR");
-                String number = (String)arr.get("SH_PHONE");
-                String come = (String)arr.get("SH_WAY");
-                come = come.replaceAll("\n", " ");
-                String info = (String)arr.get("SH_INFO");
-                info = info.replaceAll("\n", " ");
+            for (int i =0; i<array1.size(); i++){
+                StorePlaceMapper api_request = tuningOpenAPI.tuningOpenAPIStoreData((JSONObject) array1.get(i));
 
-                String pride = (String)arr.get("SH_PRIDE");
-                String photo = (String)arr.get("SH_PHOTO");
-
-
-                Store api_request = Store.builder()
-                        .storeId(id)
-                        .storeName(store_name)
-                        .storeType(store_code)
-                        .storeAddress(address)
-                        .storeNumber(number)
-                        .storeWayToCome(come)
-                        .storeInfo(info)
-                        .storePride(pride)
-                        .storeUrl(photo).build();
-
-                System.out.println("hizz");
-                System.out.println(api_request);
-
-                req.add(api_request);
+                stores.add(api_request.getStore());
+                if (api_request.getPlace() != null) {
+                    places.add(api_request.getPlace());
+                }
 
             }
 
             for (int i =0; i<array2.size(); i++){
-                JSONObject arr = (JSONObject) array2.get(i);
-                Long id = Long.parseLong((String) arr.get("SH_ID"));
-                String store_name = (String)arr.get("SH_NAME");
-                int store_code = Integer.parseInt((String) arr.get("INDUTY_CODE_SE"));
-                String address = (String)arr.get("SH_ADDR");
-                String number = (String)arr.get("SH_PHONE");
-                String come = (String)arr.get("SH_WAY");
-                String info = (String)arr.get("SH_INFO");
-                String pride = (String)arr.get("SH_PRIDE");
-                String photo = (String)arr.get("SH_PHOTO");
+                StorePlaceMapper api_request = tuningOpenAPI.tuningOpenAPIStoreData((JSONObject) array2.get(i));
 
-                Store api_request = Store.builder()
-                        .storeId(id)
-                        .storeName(store_name)
-                        .storeType(store_code)
-                        .storeAddress(address)
-                        .storeNumber(number)
-                        .storeWayToCome(come)
-                        .storeInfo(info)
-                        .storePride(pride)
-                        .storeUrl(photo).build();
-                req.add(api_request);
+                stores.add(api_request.getStore());
+                if (api_request.getPlace() != null) {
+                    places.add(api_request.getPlace());
+                }
 
             }
 
-//            dbSaveService.saveStoreDB(req);
+            dbSaveService.saveStoreDB(stores);
+            dbSaveService.savePlaceDB(places);
 
 
 
@@ -164,7 +100,7 @@ public class DBSaveController {
 
         try {
             URL url = new URL("http://openAPI.seoul.go.kr:8088/7a584c4877627261393579564c574a/json/ListPriceModelStoreProductService/1/1000");
-            URL url1 = new URL("http://openAPI.seoul.go.kr:8088/7a584c4877627261393579564c574a/json/ListPriceModelStoreProductService/1001/1210");
+            URL url1 = new URL("http://openAPI.seoul.go.kr:8088/7a584c4877627261393579564c574a/json/ListPriceModelStoreProductService/1001/2000");
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-type","application/json");
