@@ -1,4 +1,4 @@
-package com.pfm.project.dto.store_detail;
+package com.pfm.project.dto.store;
 
 import com.pfm.project.dto.product.ProductResponseDto;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -17,13 +17,17 @@ public class StoreDetailResponseDTO {
     @Schema(description = "찾아 오시는 길")
     private String storeWayToCome;
 
+    @Schema(description = "업소 사진")
+    private String storeUrl;
+
     @ArraySchema()
     private List<ProductResponseDto> products;
 
-    public StoreDetailResponseDTO(String storeInfo, String storeNumber, String storeWayToCome, List<ProductResponseDto> products) {
+    public StoreDetailResponseDTO(String storeInfo, String storeNumber, String storeWayToCome, List<ProductResponseDto> products, String storeUrl) {
         this.storeInfo = storeInfo;
         this.storeNumber = storeNumber;
         this.storeWayToCome = storeWayToCome;
+        this.storeUrl = storeUrl;
         this.products = products;
     }
 
@@ -43,5 +47,7 @@ public class StoreDetailResponseDTO {
         return storeWayToCome;
     }
 
-
+    public String getStoreUrl() {
+        return storeUrl;
+    }
 }
