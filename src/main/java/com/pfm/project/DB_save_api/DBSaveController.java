@@ -94,13 +94,16 @@ public class DBSaveController {
     public void saveProductDb(){
 
         String result = "";
+        String result1 = "";
         String result2 = "";
+        String result3 = "";
 
         List<ProductApiDTO> req = new ArrayList<>();
 
         try {
             URL url = new URL("http://openAPI.seoul.go.kr:8088/7a584c4877627261393579564c574a/json/ListPriceModelStoreProductService/1/1000");
             URL url1 = new URL("http://openAPI.seoul.go.kr:8088/7a584c4877627261393579564c574a/json/ListPriceModelStoreProductService/1001/2000");
+            URL url2 = new URL("http://openAPI.seoul.go.kr:8088/7a584c4877627261393579564c574a/json/ListPriceModelStoreProductService/2001/3000");
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-type","application/json");
@@ -109,21 +112,30 @@ public class DBSaveController {
             connection1.setRequestMethod("GET");
             connection1.setRequestProperty("Content-type","application/json");
 
+            HttpURLConnection connection2= (HttpURLConnection)url2.openConnection();
+            connection1.setRequestMethod("GET");
+            connection1.setRequestProperty("Content-type","application/json");
+
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
+            BufferedReader bf1 = new BufferedReader(new InputStreamReader(url1.openStream(),"UTF-8"));
             BufferedReader bf2 = new BufferedReader(new InputStreamReader(url1.openStream(),"UTF-8"));
 
             result = bf.readLine();
+            result1 = bf1.readLine();
             result2 = bf2.readLine();
 
             JSONParser parser = new JSONParser();
             JSONObject object = (JSONObject) parser.parse(result);
+            JSONObject object1 = (JSONObject) parser.parse(result1);
             JSONObject object2 = (JSONObject) parser.parse(result2);
 
-            JSONObject out1 = (JSONObject) object.get("ListPriceModelStoreProductService");
+            JSONObject out = (JSONObject) object.get("ListPriceModelStoreProductService");
 
+            JSONObject out1 = (JSONObject) object1.get("ListPriceModelStoreProductService");
             JSONObject out2 = (JSONObject) object2.get("ListPriceModelStoreProductService");
 
-            JSONArray array = (JSONArray) out1.get("row");
+            JSONArray array = (JSONArray) out.get("row");
+            JSONArray array1 = (JSONArray) out1.get("row");
             JSONArray array2 = (JSONArray) out2.get("row");
 
 
@@ -143,12 +155,26 @@ public class DBSaveController {
 
             }
 
-            for (int i =0; i<array2.size(); i++){
-                JSONObject arr = (JSONObject) array.get(i);
-                Long id = Long.parseLong((String) arr.get("SH_ID"));
-                double price = (double)arr.get("IM_PRICE");
+            for (int i =0; i<array1.size(); i++){
+                JSONObject arr1 = (JSONObject) array1.get(i);
+                Long id = Long.parseLong((String) arr1.get("SH_ID"));
+                double price = (double)arr1.get("IM_PRICE");
                 int resultPrice = Integer.parseInt(String.valueOf(Math.round(price)));
-                String productName = (String)arr.get("IM_NAME");
+                String productName = (String)arr1.get("IM_NAME");
+
+
+                ProductApiDTO api_request = ProductApiDTO.builder().productPrice(resultPrice).productName(productName).id(id).build();
+
+                req.add(api_request);
+
+            }
+
+            for (int i =0; i<array2.size(); i++){
+                JSONObject arr2 = (JSONObject) array2.get(i);
+                Long id = Long.parseLong((String) arr2.get("SH_ID"));
+                double price = (double)arr2.get("IM_PRICE");
+                int resultPrice = Integer.parseInt(String.valueOf(Math.round(price)));
+                String productName = (String)arr2.get("IM_NAME");
 
 
                 ProductApiDTO api_request = ProductApiDTO.builder().productPrice(resultPrice).productName(productName).id(id).build();
