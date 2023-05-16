@@ -1,13 +1,14 @@
 package com.pfm.project.domain.store;
 
+import com.pfm.project.domain.place.Place;
+import com.pfm.project.domain.product.Product;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -51,6 +52,13 @@ public class Store {
     // 업소 주소
     @Column(name = "store_address", nullable = false)
     private String storeAddress;
+
+    @OneToOne(targetEntity = Place.class, mappedBy = "store")
+    private Place place;
+
+
+    @OneToMany(targetEntity = Product.class, mappedBy = "store")
+    private List<Product> product = new ArrayList<>();
 
     //https://cheese10yun.github.io/spring-builder-pattern/
     @Builder

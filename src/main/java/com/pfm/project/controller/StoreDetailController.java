@@ -34,9 +34,9 @@ public class StoreDetailController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = StoreDetailResponse.class))
             ),
     })
-    public ResponseEntity findStoreDetail(@PathVariable int storeId) {
+    public ResponseEntity findStoreDetail(@PathVariable Long storeId) {
         try {
-            StoreDetailResponse storeDetailResponse = StoreDetailResponse.builder().build();
+            StoreDetailResponse storeDetailResponse = storeDetailService.findStoreDetail(storeId);
 
             ResponseEntity response =  ResponseEntity.ok().body(
                     SuccessResponseBody
