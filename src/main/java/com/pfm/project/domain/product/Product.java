@@ -36,4 +36,13 @@ public class Product {
         this.price = price;
         this.productName =productName;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

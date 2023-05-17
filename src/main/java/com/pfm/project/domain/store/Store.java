@@ -30,7 +30,7 @@ public class Store {
     private int storeType;
 
     // 업소 전화 번호
-    @Column(name = "store_number", nullable = false)
+    @Column(name = "store_number")
     private String storeNumber;
 
     // 찾아 오시는 길
@@ -96,6 +96,8 @@ public class Store {
                 ", storeUrl='" + storeUrl + '\'' +
                 ", storeInfo='" + storeInfo + '\'' +
                 ", storeAddress='" + storeAddress + '\'' +
+                ", place=" + place +
+                ", product=" + product +
                 '}';
     }
 }

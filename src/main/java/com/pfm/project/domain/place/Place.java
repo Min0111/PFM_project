@@ -34,4 +34,12 @@ public class Place {
         this.longitude = longitude;
         this.store = store;
     }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }
