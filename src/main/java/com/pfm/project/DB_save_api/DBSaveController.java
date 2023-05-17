@@ -61,8 +61,8 @@ public class DBSaveController {
             for (int i =0; i<array1.size(); i++){
                 StorePlaceMapper api_request = tuningOpenAPI.tuningOpenAPIStoreData((JSONObject) array1.get(i));
 
-                stores.add(api_request.getStore());
-                if (api_request.getPlace() != null) {
+                if (api_request != null) {
+                    stores.add(api_request.getStore());
                     places.add(api_request.getPlace());
                 }
 
@@ -71,8 +71,8 @@ public class DBSaveController {
             for (int i =0; i<array2.size(); i++){
                 StorePlaceMapper api_request = tuningOpenAPI.tuningOpenAPIStoreData((JSONObject) array2.get(i));
 
-                stores.add(api_request.getStore());
-                if (api_request.getPlace() != null) {
+                if (api_request != null) {
+                    stores.add(api_request.getStore());
                     places.add(api_request.getPlace());
                 }
 
