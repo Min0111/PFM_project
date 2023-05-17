@@ -27,8 +27,7 @@ public class Place {
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     private Store store;
 
-//    public Place() {
-//    }
+
 
     @Builder
     public Place(int id, double latitude, double longitude, Store store) {
@@ -37,21 +36,6 @@ public class Place {
         this.longtitude = longitude;
         this.store = store;
     }
-
-    public CardResponse get_Card(){
-        return new CardResponse(store);
-
-    }
-
-    public CardResponse get_All(){
-        return new CardResponse(store,latitude,longtitude);
-
-    }
-
-
-
-
-
 
 
 

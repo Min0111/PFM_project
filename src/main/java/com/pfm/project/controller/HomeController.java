@@ -1,5 +1,6 @@
 package com.pfm.project.controller;
 
+import com.pfm.project.domain.place.Place;
 import com.pfm.project.dto.home.request.HomeCoordinatesRequest;
 import com.pfm.project.dto.home.response.CardResponse;
 import com.pfm.project.service.HomeService;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,15 +28,17 @@ public class HomeController {
     @PostMapping("/home")
     public List<CardResponse> coordinates(@RequestBody HomeCoordinatesRequest coordinates) {
 
-        List<CardResponse> re = homeService.homeCoordinates(coordinates);
+        List<Place> re = homeService.homeCoordinates(coordinates);
 
-        if (re.size() !=0){
-            System.out.println(re.size());
-        }else {
-            System.out.println(re.size());
+        List<CardResponse> response = new ArrayList<>();
+
+        for (int i =0; i < re.size(); i++){
+            CardResponse result = new CardResponse(re.get(i).getStore());
+            response.add(result);
         }
 
-        return homeService.homeCoordinates(coordinates);
+
+        return response;
     }
 
 
@@ -42,15 +46,17 @@ public class HomeController {
     @PostMapping("/map")
     public List<CardResponse> AllSelect(@RequestBody HomeCoordinatesRequest coordinates) {
 
-       // List<AllSelectResponse> re = homeService.AllSelect(coordinates);
+       List<Place> result = homeService.AllSelect(coordinates);
 
-//        if (re.size() !=0){
-//            System.out.println(re.size());
-//        }else {
-//            System.out.println(re.size());
-//        }
+        List<CardResponse> response = new ArrayList<>();
 
-        return homeService.AllSelect(coordinates);
+        for (int i =0; i < result.size(); i++){
+            CardResponse response1 = new CardResponse(result.get(i).getStore(),result.get(i));
+            response.add(response1);
+        }
+
+
+        return response;
     }
 
 

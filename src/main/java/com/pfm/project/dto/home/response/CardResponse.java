@@ -25,11 +25,11 @@ public class CardResponse {
     @Schema(description = "자랑거리", example = "가격이 싸다")
     private String pride;
 
-//    @Schema(description = "위도", example = "37.5679749657665")
-//    private double latitude;
-//
-//    @Schema(description = "경도", example = "126.96761568047567")
-//    private double longtitude;
+    @Schema(description = "위도", example = "37.5679749657665")
+    private double latitude;
+
+    @Schema(description = "경도", example = "126.96761568047567")
+    private double longtitude;
 
     public CardResponse(Store store) {
         this.storeid = store.getStoreId();
@@ -41,28 +41,19 @@ public class CardResponse {
 
     }
 
-    public CardResponse(Store store, double latitude, double longtitude) {
+    public CardResponse(Store store, Place place) {
         this.storeid = store.getStoreId();
         this.storename = store.getStoreName();
         this.address = store.getStoreAddress();
         this.storecategory = store.getStoreTypeName();
         this.phonenumber = store.getStoreNumber();
         this.pride = store.getStorePride();
+        this.latitude = place.getLatitude();
+        this.longtitude = place.getLongtitude();
 
     }
 
-    public CardResponse(long storeid, String storename, String address,
-                        String storecategory, String phonenumber, String pride, String storePride, Place place) {
-        this.storeid = storeid;
-        this.storename = storename;
-        this.address = address;
-        this.storecategory = storecategory;
-        this.phonenumber = phonenumber;
-        this.pride = pride;
-//        this.latitude = place.getLatitude();
-//        this.longtitude = place.getLongtitude();
 
-    }
 
 
 

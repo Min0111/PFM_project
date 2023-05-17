@@ -1,6 +1,8 @@
-package com.pfm.project.dto.home.request;
+package com.pfm.project.dto;
 
-public class API_Request {
+
+
+public class DB_UPDateAPI_Request {
 	private Long SH_ID;	//업소아이디
     private String SH_NAME;	//업소명
     private int INDUTY_CODE_SE;	//분류코드
@@ -12,10 +14,10 @@ public class API_Request {
 	private String SH_PRIDE;	//자랑거리
 	private String SH_PHOTO;	//업소 사진
 
-	public API_Request() {
+	public DB_UPDateAPI_Request() {
 	}
-	public API_Request(Long SH_ID, String SH_NAME, int INDUTY_CODE_SE, String INDUTY_CODE_SE_NAME,
-					   String SH_ADDR, String SH_PHONE, String SH_WAY, String SH_INFO, String SH_PRIDE, String SH_PHOTO) {
+	public DB_UPDateAPI_Request(Long SH_ID, String SH_NAME, int INDUTY_CODE_SE, String INDUTY_CODE_SE_NAME,
+								String SH_ADDR, String SH_PHONE, String SH_WAY, String SH_INFO, String SH_PRIDE, String SH_PHOTO) {
 		this.SH_ID = SH_ID;
 		this.SH_NAME = SH_NAME;
 		this.INDUTY_CODE_SE = INDUTY_CODE_SE;

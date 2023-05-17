@@ -8,6 +8,5 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product,Long> {
 
-    //Optional<List<Product>> findAllByProduct_ProductNameContaining(String search);
 
 }

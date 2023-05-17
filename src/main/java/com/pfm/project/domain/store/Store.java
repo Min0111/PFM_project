@@ -64,13 +64,13 @@ public class Store {
 
 
     @OneToMany(targetEntity = Product.class,mappedBy = "store")
-    private List<Product> product = new ArrayList<>();
+    private List<Product> product;
 
 
     //https://cheese10yun.github.io/spring-builder-pattern/
     @Builder
     public Store(
-
+            Long storeId,
             String storeName,
             int storeType,
             String storeTypeName,
@@ -82,6 +82,7 @@ public class Store {
             String storeAddress
     ) {
 
+        this.storeId = storeId;
         this.storeName = storeName;
         this.storeType = storeType;
         this.storeTypeName = storeTypeName;
@@ -93,11 +94,25 @@ public class Store {
         this.storeAddress = storeAddress;
     }
 
-
-    public CardResponse search(){
-        return new CardResponse(this.storeId,this.storeName,this.storeAddress,this.storeWayToCome
-                ,this.storeTypeName,this.storeNumber,this.storePride,place);
+    @Override
+    public String toString() {
+        return "Store{" +
+                "storeId=" + storeId +
+                ", storeName='" + storeName + '\'' +
+                ", storeType=" + storeType +
+                ", storeNumber='" + storeNumber + '\'' +
+                ", storeWayToCome='" + storeWayToCome + '\'' +
+                ", storePride='" + storePride + '\'' +
+                ", storeUrl='" + storeUrl + '\'' +
+                ", storeInfo='" + storeInfo + '\'' +
+                ", storeAddress='" + storeAddress + '\'' +
+                '}';
     }
+
+//    public CardResponse search(){
+//        return new CardResponse(this.storeId,this.storeName,this.storeAddress,this.storeWayToCome
+//                ,this.storeTypeName,this.storeNumber,this.storePride,place);
+//    }
 
 
 

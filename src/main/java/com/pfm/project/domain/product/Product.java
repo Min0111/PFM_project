@@ -36,33 +36,12 @@ public class Product {
     private Store store;
 
     @Builder
-    public Product(String productName, int price) {
+    public Product(String productName, int price,Store store) {
         this.price = price;
         this.productName =productName;
+        this.store = store;
     }
 
-//    public List<Store> product(String search){
-//
-//
-//
-//
-//
-//        return id;
-//
-////
-////        List<Product> products = this.product.stream()
-////                .filter(history -> history.getProductName().equals(seaㅡㅁrch))
-////                .collect(Collectors.toList());
-////        List<Long> id = new ArrayList<>();
-////
-////        for (int i=0;i<products.size();i++){
-////            id.add(products.get(i).getStoreid());
-////        }
-////
-////        return id;
-//
-//
-//    }
 
 
 }
