@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.webjars.NotFoundException;
 
 @RestController
 public class StoreDetailController {
@@ -50,7 +51,36 @@ public class StoreDetailController {
             return response;
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
+            if (e instanceof NotFoundException) {
+                System.out.println(
+                        ErrorResponseBody
+                                .builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .code(HttpStatus.NOT_FOUND.name())
+                                .message(e.getMessage() == null ? e.getMessage() : "Not Found")
+                                .error(e.getMessage())
+                                .build()
+                );
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        ErrorResponseBody
+                                .builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .code(HttpStatus.NOT_FOUND.name())
+                                .message(e.getMessage() == null ? e.getMessage() : "Not Found")
+                                .error(e.getMessage())
+                                .build()
+                );
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ErrorResponseBody
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .code(HttpStatus.BAD_REQUEST.name())
+                            .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                            .error(e.getMessage())
+                            .build()
+            );
         }
 
 

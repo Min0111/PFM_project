@@ -5,6 +5,9 @@ import com.pfm.project.domain.store.Store;
 import com.pfm.project.dto.store.response.StoreDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
+
+import java.util.Optional;
 
 @Service
 public class StoreDetailService {
@@ -17,13 +20,17 @@ public class StoreDetailService {
     }
 
     public StoreDetailResponse findStoreDetail(Long storeId) {
-//        StoreDetailResponse store = storeRepository.findById(storeId).get();
-//
-//        System.out.println(store);
+        Optional<Store> result = storeRepository.findById(storeId);
 
 
 
-        return StoreDetailResponse.builder().build();
+        if (result.isEmpty()) {
+            throw new NotFoundException("Not Found - " + storeId);
+        }
+
+        Store store = result.get();
+
+        return new StoreDetailResponse(store);
     }
 
 }

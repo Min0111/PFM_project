@@ -1,10 +1,13 @@
 package com.pfm.project.dto.store.response;
 
+import com.pfm.project.domain.product.Product;
+import com.pfm.project.domain.store.Store;
 import com.pfm.project.dto.product.response.ProductResponse;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Schema(description = "업소 자세한 정보")
@@ -31,6 +34,21 @@ public class StoreDetailResponse {
         this.storeWayToCome = storeWayToCome;
         this.storeUrl = storeUrl;
         this.products = products;
+    }
+
+    public StoreDetailResponse(Store store) {
+        List<ProductResponse> productResponses = new ArrayList<>();
+
+        for (Product p : store.getProduct()) {
+            ProductResponse productResponse = new ProductResponse(p);
+            productResponses.add(productResponse);
+
+        }
+        this.storeInfo = store.getStoreInfo();
+        this.storeNumber = store.getStoreNumber();
+        this.storeWayToCome = store.getStoreWayToCome();
+        this.storeUrl = store.getStoreUrl();
+        this.products = productResponses;
     }
 
     public List<ProductResponse> getProducts() {
