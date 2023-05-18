@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,15 @@ public class SearchController {
             return response;
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                     ErrorResponseBody
+                             .builder()
+                             .status(HttpStatus.BAD_REQUEST.value())
+                             .code(HttpStatus.BAD_REQUEST.name())
+                             .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                             .error(e.getMessage())
+                             .build()
+             );
         }
     }
 
@@ -95,7 +104,15 @@ public class SearchController {
             return response;
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ErrorResponseBody
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .code(HttpStatus.BAD_REQUEST.name())
+                            .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                            .error(e.getMessage())
+                            .build()
+            );
         }
     }
 
@@ -124,7 +141,15 @@ public class SearchController {
             return response;
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ErrorResponseBody
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .code(HttpStatus.BAD_REQUEST.name())
+                            .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                            .error(e.getMessage())
+                            .build()
+            );
         }
     }
 
@@ -154,7 +179,27 @@ public class SearchController {
             return response;
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
+            if (e instanceof NotFoundException) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        ErrorResponseBody
+                                .builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .code(HttpStatus.NOT_FOUND.name())
+                                .message(e.getMessage() == null ? e.getMessage() : "Not Found" )
+                                .error(e.getMessage())
+                                .build()
+                );
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ErrorResponseBody
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .code(HttpStatus.BAD_REQUEST.name())
+                            .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                            .error(e.getMessage())
+                            .build()
+            );
         }
     }
 }
