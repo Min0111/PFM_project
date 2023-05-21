@@ -12,12 +12,12 @@ public class SearchStoreByMapReqeust {
     private String storeName;
 
     @Schema(nullable = true)
-    private int storeType;
+    private Integer storeType;
 
     @Schema(nullable = true)
     private int page; //default = 0
 
-    public SearchStoreByMapReqeust(PlaceRequest leftUpPlace, PlaceRequest rightDownPlace, PlaceRequest userPlace, String storeName, int storeType, int page) {
+    public SearchStoreByMapReqeust(PlaceRequest leftUpPlace, PlaceRequest rightDownPlace, PlaceRequest userPlace, String storeName, Integer storeType, int page) {
         this.leftUpPlace = leftUpPlace;
         this.rightDownPlace = rightDownPlace;
         this.userPlace = userPlace;
@@ -42,7 +42,7 @@ public class SearchStoreByMapReqeust {
         return storeName;
     }
 
-    public int getStoreType() {
+    public Integer getStoreType() {
         return storeType;
     }
 
