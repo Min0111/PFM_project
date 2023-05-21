@@ -35,18 +35,28 @@ public class SearchService {
         List<StoreBriefInfoResponse> result = new ArrayList<>();
 
         if (userInput != null) {
-//            sqlResults = storeRepository.findAllByMapOrderByDistanceWithWord(
-//                    searchStoreByMapReqeust.getLeftUpPlace().getLatitude(),
-//                    searchStoreByMapReqeust.getLeftUpPlace().getLongitude(),
-//                    searchStoreByMapReqeust.getRightDownPlace().getLatitude(),
-//                    searchStoreByMapReqeust.getRightDownPlace().getLongitude(),
-//                    searchStoreByMapReqeust.getUserPlace().getLatitude(),
-//                    searchStoreByMapReqeust.getUserPlace().getLongitude(),
-//                    searchStoreByMapReqeust.getStoreName(),
-//                    getOffsetByPage(searchStoreByMapReqeust.getPage())
-//            );
+            sqlResults = storeRepository.findAllByMapOrderByDistanceWithWord(
+                    searchStoreByMapReqeust.getLeftUpPlace().getLatitude(),
+                    searchStoreByMapReqeust.getLeftUpPlace().getLongitude(),
+                    searchStoreByMapReqeust.getRightDownPlace().getLatitude(),
+                    searchStoreByMapReqeust.getRightDownPlace().getLongitude(),
+                    searchStoreByMapReqeust.getUserPlace().getLatitude(),
+                    searchStoreByMapReqeust.getUserPlace().getLongitude(),
+                    searchStoreByMapReqeust.getStoreName(),
+                    getOffsetByPage(searchStoreByMapReqeust.getPage())
+            );
 
         } else if (storeType != null) {
+            sqlResults = storeRepository.findAllByMapOrderByDistanceWithCategory(
+                    searchStoreByMapReqeust.getLeftUpPlace().getLatitude(),
+                    searchStoreByMapReqeust.getLeftUpPlace().getLongitude(),
+                    searchStoreByMapReqeust.getRightDownPlace().getLatitude(),
+                    searchStoreByMapReqeust.getRightDownPlace().getLongitude(),
+                    searchStoreByMapReqeust.getUserPlace().getLatitude(),
+                    searchStoreByMapReqeust.getUserPlace().getLongitude(),
+                    searchStoreByMapReqeust.getStoreType(),
+                    getOffsetByPage(searchStoreByMapReqeust.getPage())
+            );
 
 
         } else {
@@ -59,8 +69,8 @@ public class SearchService {
                     searchStoreByMapReqeust.getUserPlace().getLongitude(),
                     getOffsetByPage(searchStoreByMapReqeust.getPage())
             );
-//            System.out.println(store[0]);
         }
+
         for (StoreBriefInfo s : sqlResults) {
             result.add(
                     StoreBriefInfoResponse.builder()

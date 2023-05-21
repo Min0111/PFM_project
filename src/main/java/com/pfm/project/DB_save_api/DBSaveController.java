@@ -113,12 +113,12 @@ public class DBSaveController {
             connection1.setRequestProperty("Content-type","application/json");
 
             HttpURLConnection connection2= (HttpURLConnection)url2.openConnection();
-            connection1.setRequestMethod("GET");
-            connection1.setRequestProperty("Content-type","application/json");
+            connection2.setRequestMethod("GET");
+            connection2.setRequestProperty("Content-type","application/json");
 
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
             BufferedReader bf1 = new BufferedReader(new InputStreamReader(url1.openStream(),"UTF-8"));
-            BufferedReader bf2 = new BufferedReader(new InputStreamReader(url1.openStream(),"UTF-8"));
+            BufferedReader bf2 = new BufferedReader(new InputStreamReader(url2.openStream(),"UTF-8"));
 
             result = bf.readLine();
             result1 = bf1.readLine();
@@ -130,7 +130,6 @@ public class DBSaveController {
             JSONObject object2 = (JSONObject) parser.parse(result2);
 
             JSONObject out = (JSONObject) object.get("ListPriceModelStoreProductService");
-
             JSONObject out1 = (JSONObject) object1.get("ListPriceModelStoreProductService");
             JSONObject out2 = (JSONObject) object2.get("ListPriceModelStoreProductService");
 

@@ -164,7 +164,6 @@ public class SearchController {
     })
     public ResponseEntity searchStoreByMap(@RequestBody SearchStoreByMapReqeust searchStoreByMapReqeust) {
         try {
-            System.out.println("start!!");
         List<StoreBriefInfoResponse> storeBriefInfosResponse =  searchService.searchStoreByMap(searchStoreByMapReqeust);
 
             ResponseEntity response =  ResponseEntity.ok().body(
