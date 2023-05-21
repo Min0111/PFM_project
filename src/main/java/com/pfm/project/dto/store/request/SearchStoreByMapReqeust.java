@@ -30,6 +30,34 @@ public class SearchStoreByMapReqeust {
         return leftUpPlace;
     }
 
+    public double getMinLatitude() {
+        double lefUpLatitude = this.leftUpPlace.getLatitude();
+        double rightDownLatitude = this.rightDownPlace.getLatitude();
+
+        return lefUpLatitude > rightDownLatitude ? rightDownLatitude : lefUpLatitude;
+    }
+
+    public double getMaxLatitude() {
+        double lefUpLatitude = this.leftUpPlace.getLatitude();
+        double rightDownLatitude = this.rightDownPlace.getLatitude();
+
+        return lefUpLatitude > rightDownLatitude ? lefUpLatitude : rightDownLatitude;
+    }
+
+    public double getMinLongitude() {
+        double leftUpLongitude = this.leftUpPlace.getLongitude();
+        double rightDownLongitude = this.rightDownPlace.getLongitude();
+
+        return leftUpLongitude > rightDownLongitude ? rightDownLongitude : leftUpLongitude;
+    }
+
+    public double getMaxLongitude() {
+        double leftUpLongitude = this.leftUpPlace.getLongitude();
+        double rightDownLongitude = this.rightDownPlace.getLongitude();
+
+        return leftUpLongitude > rightDownLongitude ? leftUpLongitude : rightDownLongitude;
+    }
+
     public PlaceRequest getRightDownPlace() {
         return rightDownPlace;
     }
@@ -49,4 +77,5 @@ public class SearchStoreByMapReqeust {
     public int getPage() {
         return page;
     }
+
 }

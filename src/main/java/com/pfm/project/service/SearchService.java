@@ -23,6 +23,7 @@ public class SearchService {
     }
 
 
+
     @Autowired
     public SearchService(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
@@ -36,10 +37,10 @@ public class SearchService {
 
         if (userInput != null) {
             sqlResults = storeRepository.findAllByMapOrderByDistanceWithWord(
-                    searchStoreByMapReqeust.getLeftUpPlace().getLatitude(),
-                    searchStoreByMapReqeust.getLeftUpPlace().getLongitude(),
-                    searchStoreByMapReqeust.getRightDownPlace().getLatitude(),
-                    searchStoreByMapReqeust.getRightDownPlace().getLongitude(),
+                    searchStoreByMapReqeust.getMinLatitude(),
+                    searchStoreByMapReqeust.getMaxLatitude(),
+                    searchStoreByMapReqeust.getMinLongitude(),
+                    searchStoreByMapReqeust.getMaxLongitude(),
                     searchStoreByMapReqeust.getUserPlace().getLatitude(),
                     searchStoreByMapReqeust.getUserPlace().getLongitude(),
                     searchStoreByMapReqeust.getStoreName(),
@@ -48,10 +49,10 @@ public class SearchService {
 
         } else if (storeType != null) {
             sqlResults = storeRepository.findAllByMapOrderByDistanceWithCategory(
-                    searchStoreByMapReqeust.getLeftUpPlace().getLatitude(),
-                    searchStoreByMapReqeust.getLeftUpPlace().getLongitude(),
-                    searchStoreByMapReqeust.getRightDownPlace().getLatitude(),
-                    searchStoreByMapReqeust.getRightDownPlace().getLongitude(),
+                    searchStoreByMapReqeust.getMinLatitude(),
+                    searchStoreByMapReqeust.getMaxLatitude(),
+                    searchStoreByMapReqeust.getMinLongitude(),
+                    searchStoreByMapReqeust.getMaxLongitude(),
                     searchStoreByMapReqeust.getUserPlace().getLatitude(),
                     searchStoreByMapReqeust.getUserPlace().getLongitude(),
                     searchStoreByMapReqeust.getStoreType(),
@@ -61,10 +62,10 @@ public class SearchService {
 
         } else {
             sqlResults = storeRepository.findAllByMapOrderByDistance(
-                    searchStoreByMapReqeust.getLeftUpPlace().getLatitude(),
-                    searchStoreByMapReqeust.getLeftUpPlace().getLongitude(),
-                    searchStoreByMapReqeust.getRightDownPlace().getLatitude(),
-                    searchStoreByMapReqeust.getRightDownPlace().getLongitude(),
+                    searchStoreByMapReqeust.getMinLatitude(),
+                    searchStoreByMapReqeust.getMaxLatitude(),
+                    searchStoreByMapReqeust.getMinLongitude(),
+                    searchStoreByMapReqeust.getMaxLongitude(),
                     searchStoreByMapReqeust.getUserPlace().getLatitude(),
                     searchStoreByMapReqeust.getUserPlace().getLongitude(),
                     getOffsetByPage(searchStoreByMapReqeust.getPage())
@@ -89,15 +90,7 @@ public class SearchService {
             );
         }
 
-
-
         return result;
 
     }
-
-
-//    public List<SearchResponse> currentLocation(String search, HomeCoordinatesRequest req){
-//
-//
-//
 }
