@@ -13,11 +13,11 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> findById(Long id);
 
     @Query(value = "select " +
-                "s.store_id as storeId, s.store_name as storeName, s.store_type as storeType, s.store_pride as storePride, s.store_address as storeAddress, p.latitude as latitude, p.longitude as longitude, " +
-            "ST_DISTANCE_SPHERE(POINT(:userLatitude, :userLongitude), Point(p.latitude, p.longitude)) as dist " +
+                "s.store_id as storeId, s.store_name as storeName, s.store_type as storeType, s.store_pride as storePride, s.store_address as storeAddress, pl.latitude as latitude, pl.longitude as longitude, " +
+            "ST_DISTANCE_SPHERE(POINT(:userLatitude, :userLongitude), Point(pl.latitude, pl.longitude)) as dist " +
             "from " +
                 "store as s " +
-            "inner join place as p on s.store_id = p.store_id " +
+            "inner join place as pl on s.store_id = pl.store_id " +
             "where pl.latitude between :minLatitude and :maxLatitude and pl.longitude between :minLongitude and :maxLongitude " +
             "group by s.store_id order by dist limit 20 offset :offset", nativeQuery = true
     )
