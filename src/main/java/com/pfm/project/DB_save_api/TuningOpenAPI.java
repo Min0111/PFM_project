@@ -50,29 +50,39 @@ public class TuningOpenAPI {
         String photo = (String)jsonObject.get("SH_PHOTO");
 
 
-        // number = "" or number = "-"
+        // number = "" or number = "-" or number == 없음
+        // 아마 완벽?
         String number = (String)jsonObject.get("SH_PHONE");
-        if (number == "" || number == "-") {
+        if (number == "" || number.length() == 1 || number.contains("없음")) {
             number = null;
         }
 
-        // storewaytocome = "" or storewaytocome = " "
+
+
+        // storewaytocome = "" or storewaytocome = " " storewaytocome == null
         String come = (String)jsonObject.get("SH_WAY");
         come = come.replaceAll("\n", " ");
-        if (come == "" || come == " ") {
+        if (come == "" || come == " " || come.contains("null")) {
             come = null;
         }
 
-        // store_info = ""
+        // store_info = "" info == "null"
         String info = (String)jsonObject.get("SH_INFO");
+
+//        String infoWithNoSpace = info.replaceAll(" ", "");
+//
+//        if (infoWithNoSpace.length() == 0) {
+//            System.out.println("zz");
+//        }
+
         info = info.replaceAll("\n", " ");
-        if (info == "") {
+        if (info == "" || info.contains("null")) {
             info = null;
         }
 
-        // pride = "" or pride = " "
+        // pride = "" or pride = " " or pride == "null"
         String pride = (String)jsonObject.get("SH_PRIDE");
-        if (pride == "" || pride == " ") {
+        if (pride == "" || pride == " " || pride.contains("null")) {
             pride = null;
         }
 
@@ -81,18 +91,7 @@ public class TuningOpenAPI {
 
         if (naverPlace == null) {
             return null;
-//            Store store =  Store.builder()
-//                    .storeId(id)
-//                    .storeName(store_name)
-//                    .storeType(store_code)
-//                    .storeAddress(address)
-//                    .storeNumber(number)
-//                    .storeWayToCome(come)
-//                    .storeInfo(info)
-//                    .storePride(pride)
-//                    .storeUrl(photo).build();
-//
-//            return StorePlaceMapper.builder().store(store).place(null).build();
+
 
         } else {
             Store store =  Store.builder()

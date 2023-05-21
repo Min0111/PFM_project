@@ -47,13 +47,10 @@ public class SearchController {
                     content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = StoreBriefInfoResponse.class)))
             )
     })
-//    public List<StoreBriefInfoResponse> searchStoreByUserPlace(@RequestBody SearchStoreByUserPlaceRequest searchStoreByUserPlaceRequest) {
-//        return null;
-//    }
+
     public ResponseEntity searchStoreByUserPlace(@RequestBody SearchStoreByUserPlaceRequest searchStoreByUserPlaceRequest) {
          try {
              List<StoreBriefInfoResponse> storeBriefInfosResponse = new ArrayList();
-//        List<StoreBriefInfoResponse> storeBriefInfosResponse =  searchService.
 
             ResponseEntity response =  ResponseEntity.ok().body(
                     SuccessResponseBody

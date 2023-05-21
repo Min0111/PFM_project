@@ -78,8 +78,8 @@ public class DBSaveController {
 
             }
 
-            dbSaveService.saveStoreDB(stores);
-            dbSaveService.savePlaceDB(places);
+//            dbSaveService.saveStoreDB(stores);
+//            dbSaveService.savePlaceDB(places);
 
 
 
