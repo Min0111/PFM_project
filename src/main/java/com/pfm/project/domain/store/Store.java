@@ -2,13 +2,11 @@ package com.pfm.project.domain.store;
 
 import com.pfm.project.domain.place.Place;
 import com.pfm.project.domain.product.Product;
-import com.pfm.project.dto.home.response.CardResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -109,10 +107,7 @@ public class Store {
                 '}';
     }
 
-//    public CardResponse search(){
-//        return new CardResponse(this.storeId,this.storeName,this.storeAddress,this.storeWayToCome
-//                ,this.storeTypeName,this.storeNumber,this.storePride,place);
-//    }
+
 
 
 

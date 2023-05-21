@@ -9,10 +9,14 @@ public class PlaceResponse {
     @Schema(description = "업소 경도", example = "0.0")
     private double longitude;
 
+
+
     public PlaceResponse(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+
     }
+
 
     public double getLatitude() {
         return latitude;

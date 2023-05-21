@@ -3,7 +3,7 @@ package com.pfm.project.controller;
 import com.pfm.project.dto.ErrorResponseBody;
 import com.pfm.project.dto.SuccessResponseBody;
 import com.pfm.project.dto.store.response.StoreDetailResponse;
-import com.pfm.project.service.StoreDetailService;
+import com.pfm.project.service.StoreService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StoreDetailController {
 
-    final StoreDetailService storeDetailService;
+    final StoreService storeDetailService;
 
     @Autowired
-    public StoreDetailController(StoreDetailService storeDetailService) {
+    public StoreDetailController(StoreService storeDetailService) {
         this.storeDetailService = storeDetailService;
     }
 
