@@ -7,6 +7,8 @@ spring:
     username: "pfm_local_id"
     password: "bears1278$$"
     driver-class-name: com.mysql.cj.jdbc.Driver
+    dbcp2:
+      default-schema: "pfm_local"
   jpa:
     hibernate:
 #      ddl-auto: create
@@ -18,20 +20,25 @@ spring:
 #    generate-ddl: true
     generate-ddl: false
 ---
+server:
+  port: 8080
+
 spring:
   config:
     activate:
       on-profile: dev
   datasource:
-    url: "jdbc:mysql://localhost/library"
-    username: "root"
-    password: "Abcd1234!"
+    url: "jdbc:mysql://database-1.cgt5q90gnxib.ap-northeast-2.rds.amazonaws.com:3306/pfm?serverTimezone=Asia/Seoul"
+    username: "admin"
+    password: "asdf1234!"
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+#          ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+#        generate-ddl: true
+    generate-ddl: false
