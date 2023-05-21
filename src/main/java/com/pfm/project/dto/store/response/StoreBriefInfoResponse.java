@@ -2,6 +2,7 @@ package com.pfm.project.dto.store.response;
 
 import com.pfm.project.dto.place.response.PlaceResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 @Schema(description = "업소 간단 정보")
 public class StoreBriefInfoResponse {
@@ -23,6 +24,7 @@ public class StoreBriefInfoResponse {
     @Schema(description = "업소 좌표")
     private PlaceResponse place;
 
+    @Builder
     public StoreBriefInfoResponse(
             Long storeId,
             String storeName,
