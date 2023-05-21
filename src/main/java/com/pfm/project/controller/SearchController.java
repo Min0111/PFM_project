@@ -124,7 +124,7 @@ public class SearchController {
                     content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = StoreBriefInfoResponse.class)))
             )
     })
-    public ResponseEntity searchStoreBy(@RequestBody SearchStoreByCategoryReqeust searchStoreByCategoryReqeust) {
+    public ResponseEntity searchStoreByCategory(@RequestBody SearchStoreByCategoryReqeust searchStoreByCategoryReqeust) {
         try {
             List<StoreBriefInfoResponse> storeBriefInfosResponse = new ArrayList();
 //        List<StoreBriefInfoResponse> storeBriefInfosResponse =  searchService.
@@ -164,8 +164,8 @@ public class SearchController {
     })
     public ResponseEntity searchStoreByMap(@RequestBody SearchStoreByMapReqeust searchStoreByMapReqeust) {
         try {
-            List<StoreBriefInfoResponse> storeBriefInfosResponse = new ArrayList();
-//        List<StoreBriefInfoResponse> storeBriefInfosResponse =  searchService.
+            System.out.println("start!!");
+        List<StoreBriefInfoResponse> storeBriefInfosResponse =  searchService.searchStoreByMap(searchStoreByMapReqeust);
 
             ResponseEntity response =  ResponseEntity.ok().body(
                     SuccessResponseBody

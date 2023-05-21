@@ -52,15 +52,7 @@ public class StoreDetailController {
 
         } catch (Exception e) {
             if (e instanceof NotFoundException) {
-                System.out.println(
-                        ErrorResponseBody
-                                .builder()
-                                .status(HttpStatus.NOT_FOUND.value())
-                                .code(HttpStatus.NOT_FOUND.name())
-                                .message(e.getMessage() == null ? e.getMessage() : "Not Found")
-                                .error(e.getMessage())
-                                .build()
-                );
+
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                         ErrorResponseBody
                                 .builder()
