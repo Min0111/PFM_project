@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DBSaveService {
@@ -35,12 +36,16 @@ public class DBSaveService {
         List<Product> saveProducts = new ArrayList<>();
 
         for (ProductApiDTO p: req) {
-            Product product = Product.builder()
-                    .price(p.getProductPrice())
-                    .store(storeRepository.findById(p.getId()).orElseThrow())
-                    .productName(p.getProductName()).build();
+            Optional<Store> store = storeRepository.findById(p.getId());
 
-            saveProducts.add(product);
+            if (store.isPresent()) {
+                Product product = Product.builder()
+                        .price(p.getProductPrice())
+                        .store(store.get())
+                        .productName(p.getProductName()).build();
+
+                saveProducts.add(product);
+            }
         }
 
         productRepository.saveAll(saveProducts);
