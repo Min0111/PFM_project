@@ -144,8 +144,8 @@ public class TuningOpenAPI {
                     NaverPlace naverPlace = NaverPlace
                             .builder()
                             .address(bodyJson.get("addresses").get(0).get("jibunAddress").asText())
-                            .latitude(bodyJson.get("addresses").get(0).get("x").asDouble())
-                            .longitude(bodyJson.get("addresses").get(0).get("y").asDouble())
+                            .latitude(bodyJson.get("addresses").get(0).get("y").asDouble())
+                            .longitude(bodyJson.get("addresses").get(0).get("x").asDouble())
                             .build();
 
                     return naverPlace;
