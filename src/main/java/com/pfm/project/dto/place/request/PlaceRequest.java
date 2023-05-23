@@ -5,21 +5,21 @@ package com.pfm.project.dto.place.request;
 
 public class PlaceRequest {
     private double latitude;
-    private double longtitude;
+    private double longitude;
 
     public PlaceRequest() {
     }
 
     public PlaceRequest(double latitude, double longtitude) {
         this.latitude = latitude;
-        this.longtitude = longtitude;
+        this.longitude = longtitude;
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 }

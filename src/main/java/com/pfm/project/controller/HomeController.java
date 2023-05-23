@@ -1,14 +1,12 @@
 package com.pfm.project.controller;
 
-import com.pfm.project.domain.place.Place;
-import com.pfm.project.domain.store.Store;
 import com.pfm.project.dto.ErrorResponseBody;
 import com.pfm.project.dto.SuccessResponseBody;
 import com.pfm.project.dto.place.request.PlaceRequest;
 import com.pfm.project.dto.store.request.SearchStoreByUserPlaceRequest;
 import com.pfm.project.dto.store.request.SearchStoreByWordReqeust;
+import com.pfm.project.dto.store.response.StoreBriefInfo;
 import com.pfm.project.dto.store.response.StoreBriefInfoResponse;
-import com.pfm.project.dto.store.response.StoreCardMeterComparator;
 import com.pfm.project.service.SearchService;
 import com.pfm.project.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,12 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/")
@@ -59,42 +55,41 @@ public class HomeController {
     public ResponseEntity Cardcoordinates(@RequestBody PlaceRequest place) {
 
         try {
-            List<Place> places = storeService.Coordinates();
+            List<StoreBriefInfo> places = storeService.Coordinates(place.getLongitude(), place.getLatitude());
+            StoreBriefInfoResponse filter;
             List<StoreBriefInfoResponse> responses = new ArrayList<>();
 
             for (int i = 0; i < places.size(); i++) {
-
-                double theta = place.getLongtitude() - places.get(i).getLongtitude();
-                double dist = Math.sin(Math.toRadians(place.getLatitude())) * Math.sin(Math.toRadians(places.get(i).getLatitude()))
-                        + Math.cos(Math.toRadians(place.getLatitude())) * Math.cos(Math.toRadians(places.get(i).getLatitude()))
-                        * Math.cos(Math.toRadians(theta));
-
-                dist = Math.acos(dist);
-                dist = Math.toDegrees(dist);
-                dist = dist * 60 * 1.1515;
-                dist = dist * 1609.344;
-
-                int m = (int) Math.round(dist / 10) * 10;
-
-                if (m <= 2000) {
-                    StoreBriefInfoResponse result = new StoreBriefInfoResponse(places.get(i), m);
-                    responses.add(result);
-                }
+                filter = new StoreBriefInfoResponse(places.get(i));
+                responses.add(filter);
             }
 
-            responses.sort(new StoreCardMeterComparator());
+            return ResponseEntity.ok().body(
+                    SuccessResponseBody.<List<StoreBriefInfoResponse>>builder().status(HttpStatus.OK).message("Successfully found stores by words")
+                            .data(responses).build());
 
-
-            ResponseEntity response = ResponseEntity.ok().body(
-                    SuccessResponseBody
-                            .<List<StoreBriefInfoResponse>>builder()
-                            .status(HttpStatus.OK)
-                            .message("Successfully found stores by words")
-                            .data(responses)
-                            .build());
-            return response;
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
+            if (e instanceof NotFoundException) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        ErrorResponseBody
+                                .builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .code(HttpStatus.NOT_FOUND.name())
+                                .message(e.getMessage() == null ? e.getMessage() : "Not Found" )
+                                .error(e.getMessage())
+                                .build()
+                );
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ErrorResponseBody
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .code(HttpStatus.BAD_REQUEST.name())
+                            .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                            .error(e.getMessage())
+                            .build()
+            );
         }
 
 
@@ -115,59 +110,48 @@ public class HomeController {
 
         try {
 
-            List<Store> stores = storeService.AllSelect(userPlaceRequest.getAddress());
-            StoreBriefInfoResponse result;
-            List<StoreBriefInfoResponse> result2 = new ArrayList<>();
-            List<StoreBriefInfoResponse> response_filter = new ArrayList<>();
-            HashMap<Integer, List<StoreBriefInfoResponse>> responses = new HashMap<>();
+            List<StoreBriefInfo> stores =
+                    storeService.AllSelect(userPlaceRequest.getAddress(),
+                            userPlaceRequest.getUserPlace().getLongitude(), userPlaceRequest.getUserPlace().getLatitude(),
+                            userPlaceRequest.getPage());
+            StoreBriefInfoResponse filter;
+            List<StoreBriefInfoResponse> responses = new ArrayList<>();
 
             for (int i = 0; i < stores.size(); i++) {
-
-                double theta = userPlaceRequest.getUserPlace().getLongtitude() - stores.get(i).getPlace().getLongtitude();
-                double dist = Math.sin(Math.toRadians(userPlaceRequest.getUserPlace().getLatitude())) * Math.sin(Math.toRadians(stores.get(i).getPlace().getLatitude()))
-                        + Math.cos(Math.toRadians(userPlaceRequest.getUserPlace().getLatitude())) * Math.cos(Math.toRadians(stores.get(i).getPlace().getLatitude()))
-                        * Math.cos(Math.toRadians(theta));
-
-                dist = Math.acos(dist);
-                dist = Math.toDegrees(dist);
-                dist = dist * 60 * 1.1515;
-                dist = dist * 1609.344;
-
-                int m = (int) Math.round(dist / 10) * 10;
-
-                result = new StoreBriefInfoResponse(stores.get(i), m);
-                result2.add(result);
-
-
+                filter = new StoreBriefInfoResponse(stores.get(i));
+                responses.add(filter);
             }
 
-            result2.sort(new StoreCardMeterComparator());
+            return ResponseEntity.ok().body(
+                    SuccessResponseBody.<List<StoreBriefInfoResponse>>builder().status(HttpStatus.OK).message("Successfully found stores by words")
+                            .data(responses).build());
 
-
-            int checknum = 1;
-            for (int i = 0; i < result2.size(); i++) {
-                response_filter.add(result2.get(i));
-                if (response_filter.size() == 20) {
-                    responses.put(checknum, new ArrayList<StoreBriefInfoResponse>(response_filter));
-                    System.out.println();
-                    response_filter.clear();
-                    checknum++;
-                }
-            }
-
-            ResponseEntity response = ResponseEntity.ok().body(
-                    SuccessResponseBody
-                            .<HashMap<Integer, List<StoreBriefInfoResponse>>>builder()
-                            .status(HttpStatus.OK)
-                            .message("Successfully found stores by words")
-                            .data(responses)
-                            .build());
-            return response;
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
-        }
-    }
+            if (e instanceof NotFoundException) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        ErrorResponseBody
+                                .builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .code(HttpStatus.NOT_FOUND.name())
+                                .message(e.getMessage() == null ? e.getMessage() : "Not Found" )
+                                .error(e.getMessage())
+                                .build()
+                );
+            }
 
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ErrorResponseBody
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .code(HttpStatus.BAD_REQUEST.name())
+                            .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                            .error(e.getMessage())
+                            .build()
+            );
+        }
+
+
+    }
 
     @Operation(summary = "HomeSearch", description = "홈페이지 검색창")
     @PostMapping("/search")
@@ -181,71 +165,43 @@ public class HomeController {
     })
     public ResponseEntity homeSearch(@RequestBody SearchStoreByWordReqeust search) {
         try {
-            List<Store> storename = searchService.SearchStoreName(search);
-            List<Store> productname = searchService.SearchProductName(search);
-            List<Store> DB_filter = null;
+            List<StoreBriefInfo> result = searchService.homeSearch(search.getStoreName(), search.getAddress(), search.getPage());
+            List<StoreBriefInfoResponse> responses = new ArrayList<>();
+            StoreBriefInfoResponse filter;
 
-            List<StoreBriefInfoResponse> result = new ArrayList<>();
-            List<StoreBriefInfoResponse> response_filter = new ArrayList<>();
-            HashMap<Integer, List<StoreBriefInfoResponse>> responses = new HashMap<>();
-
-
-            if (storename.size() != 0 && productname.size() != 0) {
-                for (int i = 0; i < storename.size(); i++) {
-                    for (int a = 0; a < productname.size(); a++) {
-                        if (storename.get(i).getStoreId().equals(productname.get(a).getStoreId())) {
-                            storename.remove(i);
-                            break;
-                        }
-                    }
-                }
+            for (int i = 0; i < result.size(); i++) {
+                filter = new StoreBriefInfoResponse(result.get(i));
+                responses.add(filter);
             }
-            DB_filter = Stream.of(storename, productname)
-                    .flatMap(x -> x.stream())
-                    .collect(Collectors.toList());
-
-            if (DB_filter.size() == 0) {
-                System.out.println("데이터 베이스에 없음");
-                ResponseEntity response = ResponseEntity.ok().body(
-                        SuccessResponseBody
-                                .<HashMap<Integer, List<StoreBriefInfoResponse>>>builder()
-                                .status(HttpStatus.OK)
-                                .message("Successfully found stores by words")
-                                .data(responses)
-                                .build());
-                return response;
-            } else {
-                for (int i = 0; i < DB_filter.size(); i++) {
-                    if (DB_filter.get(i).getStoreAddress().indexOf(search.getAddress()) != -1) {
-                        StoreBriefInfoResponse into =
-                                new StoreBriefInfoResponse(DB_filter.get(i));
-                        result.add(into);
-                    }
-                }
-
-                int checknum = 1;
-                for (int i = 0; i < result.size(); i++) {
-                    response_filter.add(result.get(i));
-                    if (response_filter.size() == 1) {
-
-                        responses.put(checknum, new ArrayList<StoreBriefInfoResponse>(response_filter));
-                        response_filter.clear();
-                        checknum++;
-                    }
-                }
-                ResponseEntity response = ResponseEntity.ok().body(
-                        SuccessResponseBody
-                                .<HashMap<Integer, List<StoreBriefInfoResponse>>>builder()
-                                .status(HttpStatus.OK)
-                                .message("Successfully found stores by words")
-                                .data(responses)
-                                .build());
-                return response;
 
 
-            }
+            return ResponseEntity.ok().body(
+                    SuccessResponseBody.<List<StoreBriefInfoResponse>>builder()
+                            .status(HttpStatus.OK).message("Successfully found stores by words")
+                            .data(responses).build());
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseBody());
+            if (e instanceof NotFoundException) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        ErrorResponseBody
+                                .builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .code(HttpStatus.NOT_FOUND.name())
+                                .message(e.getMessage() == null ? e.getMessage() : "Not Found" )
+                                .error(e.getMessage())
+                                .build()
+                );
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ErrorResponseBody
+                            .builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .code(HttpStatus.BAD_REQUEST.name())
+                            .message(e.getMessage() == null ? e.getMessage() : "Bad request" )
+                            .error(e.getMessage())
+                            .build()
+            );
         }
     }
 

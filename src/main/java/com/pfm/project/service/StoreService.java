@@ -4,17 +4,16 @@ package com.pfm.project.service;
 import com.pfm.project.data.PlaceRepository;
 import com.pfm.project.data.ProductRepository;
 import com.pfm.project.data.StoreRepository;
-import com.pfm.project.domain.place.Place;
 import com.pfm.project.domain.store.Store;
-import com.pfm.project.dto.store.response.StoreBriefInfoResponse;
+import com.pfm.project.dto.store.response.StoreBriefInfo;
 import com.pfm.project.dto.store.response.StoreDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class StoreService {
@@ -22,7 +21,7 @@ public class StoreService {
 
     private final PlaceRepository placeRepasitory;
 
-    private final StoreRepository storeRepasitory;
+    private final StoreRepository storeRepository;
 
     private final ProductRepository productRepository;
 
@@ -30,16 +29,17 @@ public class StoreService {
     public StoreService(PlaceRepository placeRepasitory, StoreRepository storeRepasitory, ProductRepository productRepository) {
 
         this.placeRepasitory = placeRepasitory;
-        this.storeRepasitory = storeRepasitory;
+        this.storeRepository = storeRepasitory;
         this.productRepository = productRepository;
     }
 
     // 홈페이지 접속시 card출력
     @Transactional
-    public List<Place> Coordinates() {
+    public List<StoreBriefInfo> Coordinates(double longitude, double latitude) {
 
-        List<Place> place = placeRepasitory.findAll().stream().collect(Collectors.toList());
-
+        List<StoreBriefInfo> place = placeRepasitory.homeCard(longitude,latitude)
+                .orElseThrow(IllegalArgumentException :: new);
+        System.out.println(place.size());
         return place;
 
 
@@ -48,28 +48,33 @@ public class StoreService {
 
     // 홈페이지에서 카드쪽 더보기 클릭시
     @Transactional
-    public List<Store> AllSelect(String address) {
+    public List<StoreBriefInfo> AllSelect(String address,double longitude, double latitude,int page) {
 
-        List<Store> stores = storeRepasitory.findAllByStoreAddressContaining(address)
-                .orElseThrow(IllegalArgumentException :: new).stream().collect(Collectors.toList());
+        List<StoreBriefInfo> stores = storeRepository.AllSelect(address,longitude,latitude,page*20)
+                .orElseThrow(IllegalArgumentException :: new);
 
         return stores;
     }
 
 
 
-
-
-
-
     public StoreDetailResponse findStoreDetail(Long storeId) {
-//        StoreDetailResponse store = storeRepository.findById(storeId).get();
-//
-//        System.out.println(store);
+        Optional<Store> result = storeRepository.findById(storeId);
 
 
 
-        return StoreDetailResponse.builder().build();
+        if (result.isEmpty()) {
+            throw new NotFoundException("Not Found - " + storeId);
+        }
+
+        Store store = result.get();
+
+        return new StoreDetailResponse(store);
     }
+
+
+
+
+
 
 }

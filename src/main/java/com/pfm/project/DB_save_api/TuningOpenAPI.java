@@ -47,30 +47,51 @@ public class TuningOpenAPI {
         String store_name = (String)jsonObject.get("SH_NAME");
         int store_code = Integer.parseInt((String) jsonObject.get("INDUTY_CODE_SE"));
         String address = (String)jsonObject.get("SH_ADDR");
-        String number = (String)jsonObject.get("SH_PHONE");
-        String come = (String)jsonObject.get("SH_WAY");
-        String info = (String)jsonObject.get("SH_INFO");
-        String pride = (String)jsonObject.get("SH_PRIDE");
         String photo = (String)jsonObject.get("SH_PHOTO");
 
-        info = info.replaceAll("\n", " ");
+
+        // number = "" or number = "-" or number == 없음
+        // 아마 완벽?
+        String number = (String)jsonObject.get("SH_PHONE");
+        if (number == "" || number.length() == 1 || number.contains("없음")) {
+            number = null;
+        }
+
+
+
+        // storewaytocome = "" or storewaytocome = " " storewaytocome == null
+        String come = (String)jsonObject.get("SH_WAY");
         come = come.replaceAll("\n", " ");
+        if (come == "" || come == " " || come.contains("null")) {
+            come = null;
+        }
+
+        // store_info = "" info == "null"
+        String info = (String)jsonObject.get("SH_INFO");
+
+//        String infoWithNoSpace = info.replaceAll(" ", "");
+//
+//        if (infoWithNoSpace.length() == 0) {
+//            System.out.println("zz");
+//        }
+
+        info = info.replaceAll("\n", " ");
+        if (info == "" || info.contains("null")) {
+            info = null;
+        }
+
+        // pride = "" or pride = " " or pride == "null"
+        String pride = (String)jsonObject.get("SH_PRIDE");
+        if (pride == "" || pride == " " || pride.contains("null")) {
+            pride = null;
+        }
+
 
         NaverPlace naverPlace = naverTuning(address);
 
         if (naverPlace == null) {
-            Store store =  Store.builder()
-                    .storeId(id)
-                    .storeName(store_name)
-                    .storeType(store_code)
-                    .storeAddress(address)
-                    .storeNumber(number)
-                    .storeWayToCome(come)
-                    .storeInfo(info)
-                    .storePride(pride)
-                    .storeUrl(photo).build();
+            return null;
 
-            return StorePlaceMapper.builder().store(store).place(null).build();
 
         } else {
             Store store =  Store.builder()

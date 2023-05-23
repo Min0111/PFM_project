@@ -1,6 +1,7 @@
 package com.pfm.project.dto.place.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 @Schema(description = "업소 좌표")
 public class PlaceResponse {
@@ -11,10 +12,10 @@ public class PlaceResponse {
 
 
 
+    @Builder
     public PlaceResponse(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-
     }
 
 
@@ -25,4 +26,9 @@ public class PlaceResponse {
     public double getLongitude() {
         return longitude;
     }
+
+
+
+
+
 }

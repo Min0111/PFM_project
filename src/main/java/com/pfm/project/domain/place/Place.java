@@ -11,7 +11,7 @@ import javax.persistence.*;
 //@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "place")
-public class Place implements Persistable<Long> {
+public class Place {
     @Id
     @Column(name = "store_id")
     private Long id;
@@ -19,8 +19,8 @@ public class Place implements Persistable<Long> {
     @Column(name = "latitude")
     private double latitude;
 
-    @Column(name = "longtitude")
-    private double longtitude;
+    @Column(name = "longitude")
+    private double longitude;
 
 
     @OneToOne(targetEntity = Store.class)
@@ -34,15 +34,12 @@ public class Place implements Persistable<Long> {
     public Place(Long id, double latitude, double longitude, Store store) {
         this.id = id;
         this.latitude = latitude;
-        this.longtitude = longitude;
+        this.longitude = longitude;
         this.store = store;
     }
 
 
-    @Override
-    public boolean isNew() {
-        return true;
-    }
+
 
 
 

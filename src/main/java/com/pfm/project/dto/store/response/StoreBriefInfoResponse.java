@@ -4,6 +4,7 @@ import com.pfm.project.domain.place.Place;
 import com.pfm.project.domain.store.Store;
 import com.pfm.project.dto.place.response.PlaceResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 @Schema(description = "업소 간단 정보")
 public class StoreBriefInfoResponse {
@@ -25,39 +26,21 @@ public class StoreBriefInfoResponse {
     @Schema(description = "업소 좌표")
     private PlaceResponse place;
 
-    @Schema(description = "본인 반경 m")
-    private int meter;
 
 
-    public StoreBriefInfoResponse(Store store) {
+    public StoreBriefInfoResponse(StoreBriefInfo store) {
         this.storeId = store.getStoreId();
         this.storeName =store.getStoreName();
         this.storeType =store.getStoreType();
         this.storePride =store.getStorePride();
         this.storeAddress =store.getStoreAddress();
-        this.place = new PlaceResponse(store.getPlace().getLatitude(),store.getPlace().getLongtitude());
-    }
-    // 홈페이지에서 더보기 클릭시 사용
-    public StoreBriefInfoResponse(Store store, int meter) {
-        this.storeId = store.getStoreId();
-        this.storeName =store.getStoreName();
-        this.storeType =store.getStoreType();
-        this.storePride =store.getStorePride();
-        this.storeAddress =store.getStoreAddress();
-        this.meter = meter;
-        this.place = new PlaceResponse(store.getPlace().getLatitude(),store.getPlace().getLongtitude());
+        this.place = new PlaceResponse(store.getLatitude(),store.getLongitude());
     }
 
-    // 홈페이지 7개 카드 출력시 사용
-    public StoreBriefInfoResponse(Place place, int meter) {
-        this.storeId = place.getStore().getStoreId();
-        this.storeName = place.getStore().getStoreName();
-        this.storeType = place.getStore().getStoreType();
-        this.storePride = place.getStore().getStorePride();
-        this.storeAddress = place.getStore().getStoreAddress();
-        this.meter = meter;
-        this.place = new PlaceResponse(place.getLatitude(),place.getLongtitude());
-    }
+
+
+
+    @Builder
     public StoreBriefInfoResponse(
             Long storeId,
             String storeName,
@@ -94,12 +77,10 @@ public class StoreBriefInfoResponse {
         return storeAddress;
     }
 
-    public int getMeter() {
-        return meter;
-    }
-
     public PlaceResponse getPlace() {
         return place;
     }
+
+
 
 }

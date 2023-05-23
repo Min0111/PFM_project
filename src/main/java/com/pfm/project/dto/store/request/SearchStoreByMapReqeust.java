@@ -12,12 +12,14 @@ public class SearchStoreByMapReqeust {
     private String storeName;
 
     @Schema(nullable = true)
-    private int storeType;
+    private Integer storeType;
 
     @Schema(nullable = true)
     private int page; //default = 0
 
-    public SearchStoreByMapReqeust(PlaceRequest leftUpPlace, PlaceRequest rightDownPlace, PlaceRequest userPlace, String storeName, int storeType, int page) {
+
+
+    public SearchStoreByMapReqeust(PlaceRequest leftUpPlace, PlaceRequest rightDownPlace, PlaceRequest userPlace, String storeName, Integer storeType, int page) {
         this.leftUpPlace = leftUpPlace;
         this.rightDownPlace = rightDownPlace;
         this.userPlace = userPlace;
@@ -28,6 +30,34 @@ public class SearchStoreByMapReqeust {
 
     public PlaceRequest getLeftUpPlace() {
         return leftUpPlace;
+    }
+
+    public double getMinLatitude() {
+        double lefUpLatitude = this.leftUpPlace.getLatitude();
+        double rightDownLatitude = this.rightDownPlace.getLatitude();
+
+        return lefUpLatitude > rightDownLatitude ? rightDownLatitude : lefUpLatitude;
+    }
+
+    public double getMaxLatitude() {
+        double lefUpLatitude = this.leftUpPlace.getLatitude();
+        double rightDownLatitude = this.rightDownPlace.getLatitude();
+
+        return lefUpLatitude > rightDownLatitude ? lefUpLatitude : rightDownLatitude;
+    }
+
+    public double getMinLongitude() {
+        double leftUpLongitude = this.leftUpPlace.getLongitude();
+        double rightDownLongitude = this.rightDownPlace.getLongitude();
+
+        return leftUpLongitude > rightDownLongitude ? rightDownLongitude : leftUpLongitude;
+    }
+
+    public double getMaxLongitude() {
+        double leftUpLongitude = this.leftUpPlace.getLongitude();
+        double rightDownLongitude = this.rightDownPlace.getLongitude();
+
+        return leftUpLongitude > rightDownLongitude ? leftUpLongitude : rightDownLongitude;
     }
 
     public PlaceRequest getRightDownPlace() {
@@ -42,7 +72,7 @@ public class SearchStoreByMapReqeust {
         return storeName;
     }
 
-    public int getStoreType() {
+    public Integer getStoreType() {
         return storeType;
     }
 
