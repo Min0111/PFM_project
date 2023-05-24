@@ -29,10 +29,6 @@ public class Store {
     @Column(name = "store_type", nullable = false)
     private int storeType;
 
-    // 분류코드명
-    @Column(name = "store_type_name", nullable = false)
-    private String storeTypeName;
-
     // 업소 전화 번호
     @Column(name = "store_number", nullable = false)
     private String storeNumber;
@@ -71,7 +67,6 @@ public class Store {
             Long storeId,
             String storeName,
             int storeType,
-            String storeTypeName,
             String storeNumber,
             String storeWayToCome,
             String storePride,
@@ -83,7 +78,6 @@ public class Store {
         this.storeId = storeId;
         this.storeName = storeName;
         this.storeType = storeType;
-        this.storeTypeName = storeTypeName;
         this.storeNumber = storeNumber;
         this.storeWayToCome = storeWayToCome;
         this.storePride = storePride;

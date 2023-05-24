@@ -78,7 +78,7 @@ public interface StoreRepository extends JpaRepository<Store,Long> {
 
     @Query(value = "select " +
             "s.store_id as storeId, s.store_name as storeName, s.store_type as storeType, s.store_pride as storePride, s.store_address as storeAddress, pl.latitude as latitude, pl.longitude as longitude, " +
-            "ST_DISTANCE_SPHERE(POINT(:userLongitude,:userLatitude), Point(pl.longitude,pl.latitude,)) as dist " +
+            "ST_DISTANCE_SPHERE(POINT(:userLongitude,:userLatitude), Point(pl.longitude, pl.latitude)) as dist " +
             "from " +
             "store as s " +
             "inner join place as pl on s.store_id = pl.store_id " +
