@@ -45,10 +45,10 @@ public interface StoreRepository extends JpaRepository<Store,Long> {
             " on s.store_id = pd.store_id" +
             " WHERE s.store_address like %:address%" +
             " AND s.store_name like %:search%" +
-            " OR pd.product_name like %:search%" +
+            " OR pd.product_name like %:search% GROUP BY s.store_id" +
             " ORDER BY CASE WHEN s.store_name like %:search% then 1" +
             " WHEN pd.product_name like %:search% then 2" +
-            " else 3 end" +
+            " else 3 end, s.store_id" +
             " LIMIT 20 OFFSET :page",
             nativeQuery = true)
     Optional<List<StoreBriefInfo>> homeSearch( @Param("search") String search,
