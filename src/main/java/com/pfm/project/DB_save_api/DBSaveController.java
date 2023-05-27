@@ -1,6 +1,5 @@
 package com.pfm.project.DB_save_api;
 
-import com.pfm.project.domain.product.Product;
 import com.pfm.project.domain.store.Store;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,26 +36,15 @@ public class DBSaveController {
 
     @PostMapping("/api/store")
     public void saveStoreDb(){
-
-        String storeResult = "";
-        String result2 = "";
-
         List<Store> stores = new ArrayList<>();
         List<PlaceApiDTO> places= new ArrayList<>();
 
         try {
-//            URL url = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/1/1");
-//            URL url1 = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/3/4");
-
-
             URL url = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/1/1000");
             URL url1 = new URL("http://openapi.seoul.go.kr:8088/55574947656272613834534d504674/json/ListPriceModelStoreService/1001/1210");
 
             JSONArray array1 = tuningOpenAPI.getJsonObjectFromOpenAPI(url);
             JSONArray array2 = tuningOpenAPI.getJsonObjectFromOpenAPI(url1);
-
-
-
 
             for (int i =0; i<array1.size(); i++){
                 StorePlaceMapper api_request = tuningOpenAPI.tuningOpenAPIStoreData((JSONObject) array1.get(i));

@@ -42,49 +42,47 @@ public class TuningOpenAPI {
 
         return array;
     }
+
+    private String tuningStoreNumber(String number) {
+        if (number == "" || number.length() == 1 || number.contains("없음")) {
+            return null;
+        }
+        return number;
+    }
+
+    private String tuningStoreWayToCome(String storeWayToCome) {
+        storeWayToCome = storeWayToCome.replaceAll("\n", " ");
+        if (storeWayToCome == "" || storeWayToCome == " " || storeWayToCome.contains("null")) {
+            return null;
+        }
+
+        return storeWayToCome;
+    }
+
+    private String tuningStoreInfo(String storeInfo) {
+        storeInfo = storeInfo.replaceAll("\n", " ");
+        if (storeInfo == "" || storeInfo.contains("null")) {
+            return null;
+        }
+
+        return storeInfo;
+    }
+    private String tuningStorePride(String storePride) {
+        if (storePride == "" || storePride == " " || storePride.contains("null")) {
+           return  null;
+        }
+        return storePride;
+    }
     public StorePlaceMapper tuningOpenAPIStoreData(JSONObject jsonObject) {
         Long id = Long.parseLong((String) jsonObject.get("SH_ID"));
         String store_name = (String)jsonObject.get("SH_NAME");
         int store_code = Integer.parseInt((String) jsonObject.get("INDUTY_CODE_SE"));
         String address = (String)jsonObject.get("SH_ADDR");
         String photo = (String)jsonObject.get("SH_PHOTO");
-
-
-        // number = "" or number = "-" or number == 없음
-        // 아마 완벽?
-        String number = (String)jsonObject.get("SH_PHONE");
-        if (number == "" || number.length() == 1 || number.contains("없음")) {
-            number = null;
-        }
-
-
-
-        // storewaytocome = "" or storewaytocome = " " storewaytocome == null
-        String come = (String)jsonObject.get("SH_WAY");
-        come = come.replaceAll("\n", " ");
-        if (come == "" || come == " " || come.contains("null")) {
-            come = null;
-        }
-
-        // store_info = "" info == "null"
-        String info = (String)jsonObject.get("SH_INFO");
-
-//        String infoWithNoSpace = info.replaceAll(" ", "");
-//
-//        if (infoWithNoSpace.length() == 0) {
-//            System.out.println("zz");
-//        }
-
-        info = info.replaceAll("\n", " ");
-        if (info == "" || info.contains("null")) {
-            info = null;
-        }
-
-        // pride = "" or pride = " " or pride == "null"
-        String pride = (String)jsonObject.get("SH_PRIDE");
-        if (pride == "" || pride == " " || pride.contains("null")) {
-            pride = null;
-        }
+        String number = tuningStoreNumber((String)jsonObject.get("SH_PHONE"));
+        String come = tuningStoreWayToCome((String)jsonObject.get("SH_WAY"));
+        String info = tuningStoreInfo((String)jsonObject.get("SH_INFO"));
+        String pride = tuningStorePride((String)jsonObject.get("SH_PRIDE"));
 
 
         NaverPlace naverPlace = naverTuning(address);
