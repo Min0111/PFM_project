@@ -11,11 +11,6 @@ public class ProductResponse {
     @Schema(description = "음식 가격")
     private int price;
 
-    public ProductResponse(String productName, int price) {
-        this.productName = productName;
-        this.price = price;
-    }
-
     public ProductResponse(Product product) {
         this.productName = product.getProductName();
         this.price = product.getPrice();

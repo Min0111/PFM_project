@@ -11,9 +11,6 @@ public class SearchStoreByUserPlaceRequest {
 
     private int page; //default = 0
 
-    public SearchStoreByUserPlaceRequest() {
-    }
-
     public SearchStoreByUserPlaceRequest(PlaceRequest userPlace, String address, int page) {
         this.userPlace = userPlace;
         this.address = address;

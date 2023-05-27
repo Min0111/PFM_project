@@ -26,9 +26,6 @@ public class SearchStoreByMapReqeust {
         this.page = page;
     }
 
-    public PlaceRequest getLeftUpPlace() {
-        return leftUpPlace;
-    }
 
     public double getMinLatitude() {
         double lefUpLatitude = this.leftUpPlace.getLatitude();
@@ -57,6 +54,11 @@ public class SearchStoreByMapReqeust {
 
         return leftUpLongitude > rightDownLongitude ? leftUpLongitude : rightDownLongitude;
     }
+
+    public PlaceRequest getLeftUpPlace() {
+        return leftUpPlace;
+    }
+
 
     public PlaceRequest getRightDownPlace() {
         return rightDownPlace;

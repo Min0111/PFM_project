@@ -10,10 +10,6 @@ public class SearchStoreByWordReqeust {
 
     private int page; //default = 0
 
-
-    public SearchStoreByWordReqeust() {
-    }
-
     public SearchStoreByWordReqeust(String storeName, String address, int page) {
         this.storeName = storeName;
         this.address = address;
