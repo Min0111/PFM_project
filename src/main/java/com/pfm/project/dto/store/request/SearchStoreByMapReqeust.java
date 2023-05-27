@@ -77,5 +77,4 @@ public class SearchStoreByMapReqeust {
     public int getPage() {
         return page;
     }
-
 }

@@ -4,6 +4,7 @@ import com.pfm.project.dto.ErrorResponseBody;
 import com.pfm.project.dto.SuccessResponseBody;
 import com.pfm.project.dto.store.request.SearchStoreByCategoryReqeust;
 import com.pfm.project.dto.store.request.SearchStoreByMapReqeust;
+import com.pfm.project.dto.store.response.StoreBriefInfo;
 import com.pfm.project.dto.store.request.SearchStoreByUserPlaceRequest;
 import com.pfm.project.dto.store.request.SearchStoreByWordReqeust;
 import com.pfm.project.dto.store.response.StoreBriefInfoResponse;
@@ -121,17 +122,26 @@ public class SearchController {
                     content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = StoreBriefInfoResponse.class)))
             )
     })
-    public ResponseEntity searchStoreByCategory(@RequestBody SearchStoreByCategoryReqeust searchStoreByCategoryReqeust) {
+    public ResponseEntity searchStoreByCategory(@RequestBody SearchStoreByCategoryReqeust req) {
         try {
-            List<StoreBriefInfoResponse> storeBriefInfosResponse = new ArrayList();
-//        List<StoreBriefInfoResponse> storeBriefInfosResponse =  searchService.
+            List<StoreBriefInfo> result = searchService.SearchCategory(req.getStoreType(),
+                    req.getAddress(),req.getPage());
+
+            StoreBriefInfoResponse filter;
+            List<StoreBriefInfoResponse> responses = new ArrayList<>();
+
+            for (int i = 0; i < result.size(); i++) {
+                filter = new StoreBriefInfoResponse(result.get(i));
+                responses.add(filter);
+            }
+            System.out.println(responses.size());
 
             ResponseEntity response =  ResponseEntity.ok().body(
                     SuccessResponseBody
                             .<List<StoreBriefInfoResponse>>builder()
                             .status(HttpStatus.OK)
                             .message("Successfully found stores by category")
-                            .data(storeBriefInfosResponse)
+                            .data(responses)
                             .build()
             );
 

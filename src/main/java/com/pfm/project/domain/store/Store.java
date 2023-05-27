@@ -53,12 +53,13 @@ public class Store {
     @Column(name = "store_address", nullable = false)
     private String storeAddress;
 
-    @OneToOne(targetEntity = Place.class, mappedBy = "store")
+    @OneToOne(targetEntity = Place.class,mappedBy = "store")
     private Place place;
 
 
-    @OneToMany(targetEntity = Product.class, mappedBy = "store")
-    private List<Product> product = new ArrayList<>();
+    @OneToMany(targetEntity = Product.class,mappedBy = "store")
+    private List<Product> product;
+
 
     //https://cheese10yun.github.io/spring-builder-pattern/
     @Builder

@@ -10,6 +10,9 @@ public class SearchStoreByCategoryReqeust {
 
     private int page; //default = 0
 
+    public SearchStoreByCategoryReqeust() {
+    }
+
     public SearchStoreByCategoryReqeust(int storeType, String address, int page) {
         this.storeType = storeType;
         this.address = address;

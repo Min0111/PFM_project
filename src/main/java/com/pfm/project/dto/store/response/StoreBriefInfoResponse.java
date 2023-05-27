@@ -24,6 +24,20 @@ public class StoreBriefInfoResponse {
     @Schema(description = "업소 좌표")
     private PlaceResponse place;
 
+
+
+    public StoreBriefInfoResponse(StoreBriefInfo store) {
+        this.storeId = store.getStoreId();
+        this.storeName =store.getStoreName();
+        this.storeType =store.getStoreType();
+        this.storePride =store.getStorePride();
+        this.storeAddress =store.getStoreAddress();
+        this.place = new PlaceResponse(store.getLatitude(),store.getLongitude());
+    }
+
+
+
+
     @Builder
     public StoreBriefInfoResponse(
             Long storeId,

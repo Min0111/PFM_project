@@ -1,7 +1,6 @@
 package com.pfm.project.service;
 
 import com.pfm.project.data.StoreRepository;
-import com.pfm.project.domain.store.Store;
 import com.pfm.project.dto.place.response.PlaceResponse;
 import com.pfm.project.dto.store.request.SearchStoreByMapReqeust;
 import com.pfm.project.dto.store.response.StoreBriefInfo;
@@ -9,9 +8,9 @@ import com.pfm.project.dto.store.response.StoreBriefInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SearchService {
@@ -93,4 +92,21 @@ public class SearchService {
         return result;
 
     }
+    // 홈페이지 가게검색 출력
+    @Transactional
+    public List<StoreBriefInfo> homeSearch(String search,String address, int page) {
+
+        return storeRepository.homeSearch(search,address,page*20)
+                .orElseThrow(IllegalArgumentException :: new);
+    }
+
+    @Transactional
+    public List<StoreBriefInfo> SearchCategory(int category,String address, int page) {
+
+        return storeRepository.SearchCategory( category,address,page*20)
+                .orElseThrow(IllegalArgumentException :: new);
+    }
+
+
+
 }
