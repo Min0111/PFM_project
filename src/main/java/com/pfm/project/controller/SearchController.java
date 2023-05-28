@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pfm.project.DB_save_api.NaverPlace;
 import com.pfm.project.dto.ErrorResponseBody;
 import com.pfm.project.dto.SuccessResponseBody;
+import com.pfm.project.dto.address.AddressResponse;
 import com.pfm.project.dto.store.request.SearchStoreByCategoryReqeust;
 import com.pfm.project.dto.store.request.SearchStoreByMapReqeust;
 import com.pfm.project.dto.store.response.StoreBriefInfo;
@@ -48,57 +49,16 @@ public class SearchController {
 
     @GetMapping("/user/address")
     public ResponseEntity searchUserAddress(@RequestParam double latitude, @RequestParam double longitude) {
-        try {
-//            String enc = URLEncoder.encode(latitude, "UTF-8");
+         AddressResponse addressResponse = searchService.searchUserAddress(latitude, longitude);
 
-            String url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=roadaddr&coords=" + latitude + ", " + longitude;
-
-            HttpClient httpclient = HttpClientBuilder.create().build();
-            HttpGet getRequest = new HttpGet(url);
-            getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "y56xusy96s");
-            getRequest.setHeader("X-NCP-APIGW-API-KEY", "c4jNxgZSUm4Q2npsEEK4iXMx1NgF7G6qrTKQ82Wo");
-            getRequest.setHeader("Accept", "application/json");
-
-            HttpResponse response = httpclient.execute(getRequest);
-
-            if (response.getStatusLine().getStatusCode() == 200) {
-                ResponseHandler<String> handler = new BasicResponseHandler();
-                String body = handler.handleResponse(response);
-
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode bodyJson = mapper.readTree(body);
-
-                if (bodyJson.get("status").get("code").asInt() == 0) {
-                    String area1 = bodyJson.get("results").get(0).get("area1").get("name").asText();
-                    String area2 = bodyJson.get("results").get(0).get("area2").get("name").asText();
-                    String area3 = bodyJson.get("results").get(0).get("area3").get("name").asText();
-
-                    ResponseEntity data =  ResponseEntity.ok().body(
-                            SuccessResponseBody
-                                    .<String>builder()
-                                    .status(HttpStatus.OK)
-                                    .message("Successfully found stores by user place")
-                                    .data(area1 + " " + area2 + " " + area3)
-                                    .build()
-                    );
-
-
-                    return data;
-
-                }
-
-                return null;
-
-            } else {
-                return null;
-            }
-
-
-
-
-        } catch (Exception e) {
-            return null;
-        }
+        return ResponseEntity.ok().body(
+                SuccessResponseBody
+                        .<AddressResponse>builder()
+                        .status(HttpStatus.OK)
+                        .message("Successfully found stores by user place")
+                        .data(addressResponse)
+                        .build()
+        );
     }
 
 

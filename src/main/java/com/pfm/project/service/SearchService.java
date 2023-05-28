@@ -1,6 +1,8 @@
 package com.pfm.project.service;
 
+import com.pfm.project.data.NaverGeocodingRepository;
 import com.pfm.project.data.StoreRepository;
+import com.pfm.project.dto.address.AddressResponse;
 import com.pfm.project.dto.place.response.PlaceResponse;
 import com.pfm.project.dto.store.request.SearchStoreByMapReqeust;
 import com.pfm.project.dto.store.response.StoreBriefInfo;
@@ -16,6 +18,7 @@ import java.util.List;
 public class SearchService {
 
     private final StoreRepository storeRepository;
+    private final NaverGeocodingRepository naverGeocodingRepository;
     private int getOffsetByPage(int page) {
         return (page) * 20;
     }
@@ -23,8 +26,15 @@ public class SearchService {
 
 
     @Autowired
-    public SearchService(StoreRepository storeRepository) {
+    public SearchService(StoreRepository storeRepository, NaverGeocodingRepository naverGeocodingRepository) {
         this.storeRepository = storeRepository;
+        this.naverGeocodingRepository = naverGeocodingRepository;
+    }
+
+    public AddressResponse searchUserAddress(double latitude, double longitude) {
+        String address = naverGeocodingRepository.searchUserAddress(latitude, longitude);
+
+        return new AddressResponse(address);
     }
 
     public List<StoreBriefInfoResponse> searchStoreByMap(SearchStoreByMapReqeust searchStoreByMapReqeust) {
