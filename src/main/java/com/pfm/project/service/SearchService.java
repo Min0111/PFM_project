@@ -16,7 +16,6 @@ import java.util.List;
 public class SearchService {
 
     private final StoreRepository storeRepository;
-
     private int getOffsetByPage(int page) {
         return (page) * 20;
     }
@@ -92,6 +91,7 @@ public class SearchService {
         return result;
 
     }
+
     // 홈페이지 가게검색 출력
     @Transactional
     public List<StoreBriefInfo> homeSearch(String search,String address, int page) {
@@ -101,7 +101,7 @@ public class SearchService {
     }
 
     @Transactional
-    public List<StoreBriefInfo> SearchCategory(int category,String address, int page) {
+    public List<StoreBriefInfo> searchCategory(int category, String address, int page) {
 
         return storeRepository.SearchCategory( category,address,page*20)
                 .orElseThrow(IllegalArgumentException :: new);
