@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,8 @@ import org.webjars.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-//@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*",allowCredentials = "true")
 @RestController
-@RequestMapping(value = "/")
 @Tag(name = "Home", description = "Home화면 관련 api")
 public class HomeController {
 
@@ -34,7 +34,7 @@ public class HomeController {
     private final StoreService storeService;
     private final SearchService searchService;
 
-
+    @Autowired
     public HomeController(StoreService storeService, SearchService searchService) {
         this.storeService = storeService;
         this.searchService = searchService;
