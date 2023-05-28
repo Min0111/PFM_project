@@ -55,7 +55,7 @@ public class HomeController {
     public ResponseEntity Cardcoordinates(@RequestBody PlaceRequest place) {
 
         try {
-            List<StoreBriefInfo> places = storeService.Coordinates(place.getLongitude(), place.getLatitude());
+            List<StoreBriefInfo> places = storeService.coordinates(place.getLongitude(), place.getLatitude());
             StoreBriefInfoResponse filter;
             List<StoreBriefInfoResponse> responses = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class HomeController {
         try {
 
             List<StoreBriefInfo> stores =
-                    storeService.AllSelect(userPlaceRequest.getAddress(),
+                    storeService.allSelect(userPlaceRequest.getAddress(),
                             userPlaceRequest.getUserPlace().getLongitude(), userPlaceRequest.getUserPlace().getLatitude(),
                             userPlaceRequest.getPage());
             StoreBriefInfoResponse filter;

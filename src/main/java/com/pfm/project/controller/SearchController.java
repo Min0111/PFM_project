@@ -1,5 +1,8 @@
 package com.pfm.project.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pfm.project.DB_save_api.NaverPlace;
 import com.pfm.project.dto.ErrorResponseBody;
 import com.pfm.project.dto.SuccessResponseBody;
 import com.pfm.project.dto.store.request.SearchStoreByCategoryReqeust;
@@ -15,15 +18,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.webjars.NotFoundException;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +44,61 @@ public class SearchController {
     @Autowired
     public SearchController(SearchService searchService) {
         this.searchService = searchService;
+    }
+
+    @GetMapping("/user/address")
+    public ResponseEntity searchUserAddress(@RequestParam double latitude, @RequestParam double longitude) {
+        try {
+//            String enc = URLEncoder.encode(latitude, "UTF-8");
+
+            String url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=roadaddr&coords=" + latitude + ", " + longitude;
+
+            HttpClient httpclient = HttpClientBuilder.create().build();
+            HttpGet getRequest = new HttpGet(url);
+            getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "y56xusy96s");
+            getRequest.setHeader("X-NCP-APIGW-API-KEY", "c4jNxgZSUm4Q2npsEEK4iXMx1NgF7G6qrTKQ82Wo");
+            getRequest.setHeader("Accept", "application/json");
+
+            HttpResponse response = httpclient.execute(getRequest);
+
+            if (response.getStatusLine().getStatusCode() == 200) {
+                ResponseHandler<String> handler = new BasicResponseHandler();
+                String body = handler.handleResponse(response);
+
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode bodyJson = mapper.readTree(body);
+
+                if (bodyJson.get("status").get("code").asInt() == 0) {
+                    String area1 = bodyJson.get("results").get(0).get("area1").get("name").asText();
+                    String area2 = bodyJson.get("results").get(0).get("area2").get("name").asText();
+                    String area3 = bodyJson.get("results").get(0).get("area3").get("name").asText();
+
+                    ResponseEntity data =  ResponseEntity.ok().body(
+                            SuccessResponseBody
+                                    .<String>builder()
+                                    .status(HttpStatus.OK)
+                                    .message("Successfully found stores by user place")
+                                    .data(area1 + " " + area2 + " " + area3)
+                                    .build()
+                    );
+
+
+                    return data;
+
+                }
+
+                return null;
+
+            } else {
+                return null;
+            }
+
+
+
+
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
@@ -124,7 +186,7 @@ public class SearchController {
     })
     public ResponseEntity searchStoreByCategory(@RequestBody SearchStoreByCategoryReqeust req) {
         try {
-            List<StoreBriefInfo> result = searchService.SearchCategory(req.getStoreType(),
+            List<StoreBriefInfo> result = searchService.searchCategory(req.getStoreType(),
                     req.getAddress(),req.getPage());
 
             StoreBriefInfoResponse filter;
