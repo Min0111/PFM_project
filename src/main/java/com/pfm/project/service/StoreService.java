@@ -17,29 +17,28 @@ import java.util.Optional;
 
 @Service
 public class StoreService {
-
-
-    private final PlaceRepository placeRepasitory;
+    private final PlaceRepository placeRepository;
 
     private final StoreRepository storeRepository;
 
     private final ProductRepository productRepository;
 
     @Autowired
-    public StoreService(PlaceRepository placeRepasitory, StoreRepository storeRepasitory, ProductRepository productRepository) {
+    public StoreService(PlaceRepository placeRepository, StoreRepository storeRepository, ProductRepository productRepository) {
 
-        this.placeRepasitory = placeRepasitory;
-        this.storeRepository = storeRepasitory;
+        this.placeRepository = placeRepository;
+        this.storeRepository = storeRepository;
         this.productRepository = productRepository;
     }
 
     // 홈페이지 접속시 card출력
     @Transactional
-    public List<StoreBriefInfo> Coordinates(double longitude, double latitude) {
+    public List<StoreBriefInfo> coordinates(double longitude, double latitude) {
 
-        List<StoreBriefInfo> place = placeRepasitory.homeCard(longitude,latitude)
+        List<StoreBriefInfo> place = placeRepository.homeCard(longitude,latitude)
                 .orElseThrow(IllegalArgumentException :: new);
-        System.out.println(place.size());
+
+
         return place;
 
 
@@ -48,7 +47,7 @@ public class StoreService {
 
     // 홈페이지에서 카드쪽 더보기 클릭시
     @Transactional
-    public List<StoreBriefInfo> AllSelect(String address,double longitude, double latitude,int page) {
+    public List<StoreBriefInfo> allSelect(String address, double longitude, double latitude, int page) {
 
         List<StoreBriefInfo> stores = storeRepository.AllSelect(address,longitude,latitude,page*20)
                 .orElseThrow(IllegalArgumentException :: new);
@@ -71,10 +70,4 @@ public class StoreService {
 
         return new StoreDetailResponse(store);
     }
-
-
-
-
-
-
 }
