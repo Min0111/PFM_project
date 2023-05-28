@@ -36,7 +36,6 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-
     @PostMapping("/category/stores")
     @ApiResponses(value = {
             @ApiResponse(
@@ -57,7 +56,7 @@ public class SearchController {
                 filter = new StoreBriefInfoResponse(result.get(i));
                 responses.add(filter);
             }
-            System.out.println(responses.size());
+            
 
             ResponseEntity response =  ResponseEntity.ok().body(
                     SuccessResponseBody
