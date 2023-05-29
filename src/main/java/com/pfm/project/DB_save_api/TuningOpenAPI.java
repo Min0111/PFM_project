@@ -56,6 +56,10 @@ public class TuningOpenAPI {
             return null;
         }
 
+        if (storeWayToCome.contains("-")) {
+            storeWayToCome = storeWayToCome.replaceAll("-", "");
+        }
+
         return storeWayToCome;
     }
 
@@ -71,6 +75,11 @@ public class TuningOpenAPI {
         if (storePride == "" || storePride == " " || storePride.contains("null")) {
            return  null;
         }
+
+        if (storePride.contains("-")) {
+            storePride = storePride.replaceAll("-", "");
+        }
+
         return storePride;
     }
     public StorePlaceMapper tuningOpenAPIStoreData(JSONObject jsonObject) {
