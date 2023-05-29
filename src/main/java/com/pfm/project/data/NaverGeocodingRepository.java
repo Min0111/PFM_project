@@ -19,7 +19,7 @@ public class NaverGeocodingRepository {
     public String searchUserAddress(double latitude, double longitude) {
         try {
             String enc = URLEncoder.encode(", ", "UTF-8");
-            String url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=roadaddr&coords=" + latitude + enc + longitude;
+            String url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=roadaddr&coords=" + longitude + enc + latitude;
 
             HttpGet getRequest = new HttpGet(url);
             getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "y56xusy96s");
