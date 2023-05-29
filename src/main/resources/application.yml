@@ -28,13 +28,13 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: "jdbc:mysql://database-1.cgt5q90gnxib.ap-northeast-2.rds.amazonaws.com:3306/pfm?serverTimezone=Asia/Seoul"
+    url: "jdbc:mysql://pfm.cjhxcks9ojef.ap-northeast-2.rds.amazonaws.com:3306/pfmDB?serverTimezone=Asia/Seoul"
     username: "admin"
     password: "asdf1234!"
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-#          ddl-auto: create
+#      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
