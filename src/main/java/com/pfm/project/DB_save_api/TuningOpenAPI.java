@@ -82,12 +82,41 @@ public class TuningOpenAPI {
 
         return storePride;
     }
+    private String tuningStorePhoto(String photoUrl) {
+        String url = "";
+        int findIndex = photoUrl.indexOf("mulga/");
+
+        int lastIndex = findIndex + 5;
+
+        String firstUrl = photoUrl.substring(0, lastIndex + 1);
+        String secondUrl = "inc/img_view.jsp?filename=";
+        String lastUrl = null;
+
+
+//        System.out.println("startzz");
+//        System.out.println(firstUrl);
+//        System.out.println(secondUrl);
+//        System.out.println(findIndex);
+
+//        System.out.println(lastIndex);
+
+
+        if (photoUrl.length() > lastIndex + 1) {
+            lastUrl = photoUrl.substring(lastIndex + 1);
+        }
+
+
+        if (lastUrl != null) {
+            return firstUrl + secondUrl + lastUrl;
+        }
+        return null;
+    }
     public StorePlaceMapper tuningOpenAPIStoreData(JSONObject jsonObject) {
         Long id = Long.parseLong((String) jsonObject.get("SH_ID"));
         String store_name = (String)jsonObject.get("SH_NAME");
         int store_code = Integer.parseInt((String) jsonObject.get("INDUTY_CODE_SE"));
         String address = (String)jsonObject.get("SH_ADDR");
-        String photo = (String)jsonObject.get("SH_PHOTO");
+        String photo = tuningStorePhoto((String)jsonObject.get("SH_PHOTO"));
         String number = tuningStoreNumber((String)jsonObject.get("SH_PHONE"));
         String come = tuningStoreWayToCome((String)jsonObject.get("SH_WAY"));
         String info = tuningStoreInfo((String)jsonObject.get("SH_INFO"));
@@ -126,8 +155,11 @@ public class TuningOpenAPI {
 //            String newAddress = "서울특별시 서울 중랑구 용마산로129길 61-4";
             String newAddress = address.replace("서울 ", "");
 
+            System.out.println(newAddress);
+            System.out.println("zz");
             String enc = URLEncoder.encode(newAddress, "UTF-8");
             String url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query="+ enc;
+
 
 
 
